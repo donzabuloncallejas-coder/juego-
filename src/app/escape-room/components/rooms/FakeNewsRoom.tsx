@@ -12,73 +12,138 @@ type Piece = {
 	id: string;
 	label: string;
 	emoji: string;
+	isTrap: boolean;
 };
 
-const pieces: Piece[] = [
-	{ id: 'fuente', label: 'Fuente confiable', emoji: '🔎' },
-	{ id: 'fecha', label: 'Fecha verificable', emoji: '📅' },
-	{ id: 'autor', label: 'Autor identificado', emoji: '🧑‍💻' },
-	{ id: 'evidencia', label: 'Evidencia real', emoji: '🧾' }
+type Slot = {
+	id: string;
+	correctPieceId: string;
+	question: string;
+};
+
+const allPieces: Piece[] = [
+	{ id: 'fuente', label: 'Portal con dominio institucional o medio reconocido', emoji: '🔎', isTrap: false },
+	{ id: 'likes', label: 'Miles de likes y veces compartido en redes', emoji: '👍', isTrap: true },
+	{ id: 'fecha', label: 'Fecha de publicacion original verificable', emoji: '📅', isTrap: false },
+	{ id: 'testimonio', label: 'Comentarios de personas que dicen haberlo vivido', emoji: '💬', isTrap: true },
+	{ id: 'autor', label: 'Periodista o investigador con nombre y trayectoria', emoji: '🧑‍💻', isTrap: false },
+	{ id: 'influencer', label: 'Avalado por un influencer con muchos seguidores', emoji: '⭐', isTrap: true },
+	{ id: 'evidencia', label: 'Datos o estudios citados que se pueden comprobar', emoji: '🧾', isTrap: false },
+	{ id: 'titular', label: 'Titular impactante que genera emociones fuertes', emoji: '🔥', isTrap: true }
+];
+
+const correctPieces = allPieces.filter((p) => !p.isTrap);
+
+const slots: Slot[] = [
+	{ id: 'slot-origen', correctPieceId: 'fuente', question: '¿De donde viene la informacion?' },
+	{ id: 'slot-tiempo', correctPieceId: 'fecha', question: '¿Cuando fue publicado originalmente?' },
+	{ id: 'slot-responsable', correctPieceId: 'autor', question: '¿Quien es responsable del contenido?' },
+	{ id: 'slot-pruebas', correctPieceId: 'evidencia', question: '¿Que datos comprueban lo que dice?' }
 ];
 
 export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
-	const [placed, setPlaced] = useState<string[]>([]);
-	const [secondsLeft, setSecondsLeft] = useState(45);
+	const [placedMap, setPlacedMap] = useState<Record<string, string>>({});
+	const [discardedTraps, setDiscardedTraps] = useState<string[]>([]);
+	const [secondsLeft, setSecondsLeft] = useState(60);
 	const [mistakes, setMistakes] = useState(0);
+	const [trapMessage, setTrapMessage] = useState<string | null>(null);
 	const [challengeSelection, setChallengeSelection] = useState<boolean | null>(null);
 	const [verified, setVerified] = useState(false);
 	const [challengePassed, setChallengePassed] = useState(false);
 	const [completed, setCompleted] = useState(false);
 
-	useEffect(() => {
-		if (completed) {
-			return;
-		}
+	const placedPieceIds = Object.values(placedMap);
+	const correctlyPlaced = slots.filter((s) => placedMap[s.id] === s.correctPieceId).length;
 
+	useEffect(() => {
+		if (completed) return;
 		const interval = window.setInterval(() => {
 			setSecondsLeft((prev) => Math.max(0, prev - 1));
 		}, 1000);
-
 		return () => window.clearInterval(interval);
 	}, [completed]);
 
 	useEffect(() => {
 		if (!completed && secondsLeft === 0) {
-			setPlaced([]);
-			setSecondsLeft(45);
+			setPlacedMap({});
+			setDiscardedTraps([]);
+			setSecondsLeft(60);
 			setMistakes((prev) => prev + 1);
+			setTrapMessage(null);
 		}
 	}, [completed, secondsLeft]);
 
 	useEffect(() => {
-		if (!completed && placed.length === pieces.length && challengePassed) {
+		if (!completed && correctlyPlaced === slots.length && challengePassed) {
 			setCompleted(true);
 			onComplete();
 		}
-	}, [challengePassed, completed, onComplete, placed.length]);
+	}, [challengePassed, completed, correctlyPlaced, onComplete]);
 
 	const progress = useMemo(() => {
-		const done = placed.length + (challengePassed ? 1 : 0);
-		return (done / (pieces.length + 1)) * 100;
-	}, [challengePassed, placed.length]);
+		const done = correctlyPlaced + (challengePassed ? 1 : 0);
+		return (done / (slots.length + 1)) * 100;
+	}, [challengePassed, correctlyPlaced]);
 
-	const canVerify = placed.length === pieces.length && challengeSelection !== null;
+	const canVerify = correctlyPlaced === slots.length && challengeSelection !== null;
 
 	function onDragStart(event: React.DragEvent<HTMLButtonElement>, pieceId: string) {
 		event.dataTransfer.setData('pieceId', pieceId);
+		setTrapMessage(null);
 	}
 
 	function onDrop(event: React.DragEvent<HTMLDivElement>, slotId: string) {
 		event.preventDefault();
 		const pieceId = event.dataTransfer.getData('pieceId');
-		if (pieceId === slotId && !placed.includes(slotId)) {
-			setPlaced((prev) => [...prev, slotId]);
+		const slot = slots.find((s) => s.id === slotId);
+		if (!slot) return;
+
+		const piece = allPieces.find((p) => p.id === pieceId);
+		if (!piece) return;
+
+		if (piece.isTrap) {
+			setMistakes((prev) => prev + 1);
+			setSecondsLeft((prev) => Math.max(0, prev - 5));
+			setTrapMessage(`"${piece.label}" no es un criterio valido de verificacion. Piensa mejor.`);
 			return;
 		}
 
-		setMistakes((prev) => prev + 1);
-		setSecondsLeft((prev) => Math.max(0, prev - 6));
-		setPlaced((prev) => prev.slice(0, Math.max(0, prev.length - 1)));
+		if (pieceId === slot.correctPieceId && !placedMap[slotId]) {
+			setPlacedMap((prev) => ({ ...prev, [slotId]: pieceId }));
+			setTrapMessage(null);
+			return;
+		}
+
+		if (pieceId !== slot.correctPieceId) {
+			setMistakes((prev) => prev + 1);
+			setSecondsLeft((prev) => Math.max(0, prev - 4));
+			setTrapMessage(`Esa pieza es valida, pero no responde a "${slot.question}". Intentalo en otro modulo.`);
+
+			const lastSlotId = Object.keys(placedMap).at(-1);
+			if (lastSlotId) {
+				setPlacedMap((prev) => {
+					const next = { ...prev };
+					delete next[lastSlotId];
+					return next;
+				});
+			}
+		}
+	}
+
+	function handleDiscardTrap(pieceId: string) {
+		const piece = allPieces.find((p) => p.id === pieceId);
+		if (!piece) return;
+
+		if (piece.isTrap) {
+			if (!discardedTraps.includes(pieceId)) {
+				setDiscardedTraps((prev) => [...prev, pieceId]);
+				setTrapMessage(null);
+			}
+		} else {
+			setMistakes((prev) => prev + 1);
+			setSecondsLeft((prev) => Math.max(0, prev - 4));
+			setTrapMessage(`Cuidado: "${piece.label}" SI es un criterio valido. No lo descartes.`);
+		}
 	}
 
 	function verifyRoom() {
@@ -88,10 +153,12 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 		}
 	}
 
+	const isPieceUsed = (pieceId: string) => placedPieceIds.includes(pieceId) || discardedTraps.includes(pieceId);
+
 	return (
 		<PuzzleWrapper
 			title="Sala 2: Fabrica Anti-Fake News"
-			subtitle="Arrastra cada pieza al modulo correcto para encender el detector de noticias falsas."
+			subtitle="Arrastra las piezas VALIDAS al modulo correcto. Descarta las que NO sirven para verificar informacion."
 			progress={progress}
 			lawHint="Piensa antes de compartir y valida cada contenido"
 		>
@@ -99,18 +166,33 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 				<div className="hud-pill">⏳ Verificacion en tiempo real: {secondsLeft}s</div>
 				<div className="hud-pill">⚠️ Fallos en sala: {mistakes}</div>
 
+				{trapMessage ? (
+					<div className="hud-pill" style={{ borderColor: 'rgba(239, 68, 68, 0.5)', fontWeight: 600 }}>
+						🚫 {trapMessage}
+					</div>
+				) : null}
+
 				<div className="glass-card" style={{ padding: '0.8rem' }}>
-					<h3 style={{ marginTop: 0 }}>Piezas de verificacion</h3>
+					<h3 style={{ marginTop: 0, marginBottom: '0.3rem' }}>Piezas disponibles</h3>
+					<p style={{ margin: '0 0 0.5rem', fontSize: '0.88rem', opacity: 0.8 }}>
+						Arrastra al modulo correcto o haz doble clic para descartar si crees que NO es un criterio valido.
+					</p>
 					<div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-						{pieces.map((piece) => {
-							const used = placed.includes(piece.id);
+						{allPieces.map((piece) => {
+							const used = isPieceUsed(piece.id);
+							const discarded = discardedTraps.includes(piece.id);
 							return (
 								<button
 									key={piece.id}
 									draggable={!used}
 									onDragStart={(event) => onDragStart(event, piece.id)}
+									onDoubleClick={() => !used && handleDiscardTrap(piece.id)}
 									className={used ? 'game-button secondary' : 'game-button primary'}
-									style={{ opacity: used ? 0.5 : 1, cursor: used ? 'default' : 'grab' }}
+									style={{
+										opacity: used ? 0.4 : 1,
+										cursor: used ? 'default' : 'grab',
+										textDecoration: discarded ? 'line-through' : 'none'
+									}}
 								>
 									{piece.emoji} {piece.label}
 								</button>
@@ -120,8 +202,10 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 				</div>
 
 				<div className="room-grid">
-					{pieces.map((slot) => {
-						const isSet = placed.includes(slot.id);
+					{slots.map((slot) => {
+						const placedPieceId = placedMap[slot.id];
+						const placedPiece = placedPieceId ? allPieces.find((p) => p.id === placedPieceId) : null;
+						const isSet = Boolean(placedPiece);
 						return (
 							<div
 								key={slot.id}
@@ -138,12 +222,12 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 									borderColor: isSet ? '#ca8a04' : 'rgba(34, 197, 94, 0.42)'
 								}}
 							>
-								{isSet ? (
+								{isSet && placedPiece ? (
 									<strong>
-										{slot.emoji} {slot.label}
+										{placedPiece.emoji} {placedPiece.label}
 									</strong>
 								) : (
-									<span>Coloca aqui: {slot.label}</span>
+									<span style={{ fontSize: '0.95rem' }}>{slot.question}</span>
 								)}
 							</div>
 						);
@@ -152,7 +236,7 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 
 				<TruthChallenge
 					title="Pregunta clave"
-					prompt="¿Que revisas primero para saber si un portal puede ser confiable?"
+					prompt="Un articulo viral afirma que un alimento comun causa una enfermedad grave. Incluye un video de un medico explicandolo y miles de comentarios de personas que dicen haberlo vivido. ¿Como determinas si es confiable?"
 					onSelectionChange={(value) => {
 						setChallengeSelection(value);
 						setVerified(false);
@@ -161,22 +245,22 @@ export default function FakeNewsRoom({ onComplete }: FakeNewsRoomProps) {
 					revealResult={verified}
 					options={[
 						{
-							id: 'titulo',
-							text: 'Reviso si coincide con otros posts virales',
+							id: 'medico',
+							text: 'Confirmar que el medico del video esta registrado en el colegio medico oficial y tiene publicaciones reconocidas en el tema',
 							isCorrect: false,
-							reason: 'La viralidad no confirma autenticidad ni origen confiable.'
+							reason: 'Verificar al medico es un buen paso, pero no basta. La informacion necesita respaldo de estudios revisados, no solo de una persona.'
 						},
 						{
-							id: 'dominio',
-							text: 'Verifico dominio, autor identificable y fecha comprobable',
+							id: 'revista',
+							text: 'Buscar si existe un estudio cientifico revisado por pares que sustente la afirmacion y si medios de verificacion independientes lo confirman',
 							isCorrect: true,
-							reason: 'Correcto. Es la triada mas solida para filtrar desinformacion.'
+							reason: 'Correcto. Solo la evidencia cientifica revisada por pares y confirmada por verificadores independientes es confiable ante afirmaciones de salud.'
 						},
 						{
-							id: 'likes',
-							text: 'Me fijo en likes y en que lo comparten conocidos',
+							id: 'tendencias',
+							text: 'Comparar la informacion con lo que dicen las organizaciones de salud oficiales de tu pais y verificar la fecha de publicacion del articulo',
 							isCorrect: false,
-							reason: 'Que lo compartan conocidos no reemplaza la verificacion de fuente.'
+							reason: 'Consultar fuentes oficiales es importante, pero sin verificar el estudio original la afirmacion puede estar distorsionada o sacada de contexto.'
 						}
 					]}
 				/>

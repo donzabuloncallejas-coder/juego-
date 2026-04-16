@@ -15,26 +15,18 @@ export default function PuzzleWrapper({ title, subtitle, progress, lawHint, chil
 
 				<div
 					aria-label="progreso"
-					style={{
-						width: '100%',
-						height: 14,
-						borderRadius: 999,
-						background: '#dcfce7',
-						overflow: 'hidden'
-					}}
+					className="progress-track"
 				>
 					<div
+						className="progress-fill"
 						style={{
-							width: `${Math.max(0, Math.min(100, progress))}%`,
-							height: '100%',
-							background: 'linear-gradient(130deg, #facc15, #22c55e)',
-							transition: 'width 0.25s ease'
+							width: `${Math.max(0, Math.min(100, progress))}%`
 						}}
 					/>
 				</div>
 			</header>
 
-			<p style={{ margin: 0, fontSize: '0.95rem', color: '#3f6212' }}>
+			<p className="law-hint">
 				Marco de proteccion: <strong>{lawHint}</strong>
 			</p>
 

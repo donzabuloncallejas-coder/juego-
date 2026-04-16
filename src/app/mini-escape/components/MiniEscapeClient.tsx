@@ -26,6 +26,13 @@ type Position = {
 	y: number;
 };
 
+type SubStation = {
+	position: Position;
+	label: string;
+	emoji: string;
+	challengeIndex: number;
+};
+
 type LevelConfig = {
 	id: StationId;
 	order: number;
@@ -35,6 +42,10 @@ type LevelConfig = {
 	mapPosition: Position;
 	stationPosition: Position;
 	playerStart: Position;
+	subStations?: SubStation[];
+	enemyEmojis?: string[];
+	theme?: string;
+	catchMessage?: string;
 };
 
 type Enemy = {
@@ -61,8 +72,8 @@ const stations: Station[] = [
 			{
 				prompt: 'Te llega un mensaje grosero. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Insulto de regreso', safe: false },
-					{ id: 'b', text: 'Guardo prueba y aviso a un adulto', safe: true },
+					{ id: 'a', text: 'Guardo prueba y aviso a un adulto', safe: true },
+					{ id: 'b', text: 'Insulto de regreso', safe: false },
 					{ id: 'c', text: 'Lo publico para burlarme', safe: false }
 				]
 			},
@@ -70,8 +81,8 @@ const stations: Station[] = [
 				prompt: 'Si un companero molesta en un chat del curso, ¿que es mejor?',
 				options: [
 					{ id: 'a', text: 'Reirme para encajar', safe: false },
-					{ id: 'b', text: 'Pedir respeto y avisar a un adulto', safe: true },
-					{ id: 'c', text: 'Compartir el mensaje en otros grupos', safe: false }
+					{ id: 'b', text: 'Compartir el mensaje en otros grupos', safe: false },
+					{ id: 'c', text: 'Pedir respeto y avisar a un adulto', safe: true }
 				]
 			},
 			{
@@ -95,15 +106,15 @@ const stations: Station[] = [
 				prompt: 'Ves una noticia viral sin fuente. ¿Que haces?',
 				options: [
 					{ id: 'a', text: 'La comparto rapido', safe: false },
-					{ id: 'b', text: 'La reviso con un adulto y no la comparto aun', safe: true },
-					{ id: 'c', text: 'Invento mas datos', safe: false }
+					{ id: 'b', text: 'Invento mas datos', safe: false },
+					{ id: 'c', text: 'La reviso con un adulto y no la comparto aun', safe: true }
 				]
 			},
 			{
 				prompt: 'Un video dice algo increible. ¿Como comprobarlo?',
 				options: [
-					{ id: 'a', text: 'Creerlo solo por ser popular', safe: false },
-					{ id: 'b', text: 'Buscar otra fuente confiable', safe: true },
+					{ id: 'a', text: 'Buscar otra fuente confiable', safe: true },
+					{ id: 'b', text: 'Creerlo solo por ser popular', safe: false },
 					{ id: 'c', text: 'Mandarlo sin mirar', safe: false }
 				]
 			},
@@ -127,16 +138,16 @@ const stations: Station[] = [
 			{
 				prompt: 'Un perfil nuevo pide tu clave. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Se la doy para ayudar', safe: false },
+					{ id: 'a', text: 'La publico en comentarios', safe: false },
 					{ id: 'b', text: 'No la doy y aviso a mi familia', safe: true },
-					{ id: 'c', text: 'La publico en comentarios', safe: false }
+					{ id: 'c', text: 'Se la doy para ayudar', safe: false }
 				]
 			},
 			{
 				prompt: 'Para crear una clave segura, ¿que conviene?',
 				options: [
-					{ id: 'a', text: 'Usar 1234', safe: false },
-					{ id: 'b', text: 'Combinar letras y numeros', safe: true },
+					{ id: 'a', text: 'Combinar letras y numeros', safe: true },
+					{ id: 'b', text: 'Usar 1234', safe: false },
 					{ id: 'c', text: 'Usar mi nombre completo', safe: false }
 				]
 			},
@@ -144,8 +155,8 @@ const stations: Station[] = [
 				prompt: 'Si un juego pide tu direccion real, ¿que haces?',
 				options: [
 					{ id: 'a', text: 'La doy para seguir', safe: false },
-					{ id: 'b', text: 'No la doy y pido ayuda', safe: true },
-					{ id: 'c', text: 'Tambien doy el telefono', safe: false }
+					{ id: 'b', text: 'Tambien doy el telefono', safe: false },
+					{ id: 'c', text: 'No la doy y pido ayuda', safe: true }
 				]
 			}
 		]
@@ -160,17 +171,17 @@ const stations: Station[] = [
 			{
 				prompt: 'Un adulto desconocido pide fotos privadas. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Bloqueo y cuento a un adulto de confianza', safe: true },
-					{ id: 'b', text: 'Sigo hablando en secreto', safe: false },
+					{ id: 'a', text: 'Sigo hablando en secreto', safe: false },
+					{ id: 'b', text: 'Bloqueo y cuento a un adulto de confianza', safe: true },
 					{ id: 'c', text: 'Le envio lo que pide', safe: false }
 				]
 			},
 			{
 				prompt: 'Si alguien te pide guardar secreto en chat, ¿que haces?',
 				options: [
-					{ id: 'a', text: 'Lo cuento a mi familia', safe: true },
-					{ id: 'b', text: 'Guardo secreto siempre', safe: false },
-					{ id: 'c', text: 'Acepto y sigo chateando', safe: false }
+					{ id: 'a', text: 'Guardo secreto siempre', safe: false },
+					{ id: 'b', text: 'Acepto y sigo chateando', safe: false },
+					{ id: 'c', text: 'Lo cuento a mi familia', safe: true }
 				]
 			},
 			{
@@ -194,15 +205,15 @@ const stations: Station[] = [
 				prompt: 'Alguien en un juego te pide tu direccion. ¿Que haces?',
 				options: [
 					{ id: 'a', text: 'Le doy mi direccion para recibir un regalo', safe: false },
-					{ id: 'b', text: 'No la doy y aviso a mi familia', safe: true },
-					{ id: 'c', text: 'Le comparto tambien mi telefono', safe: false }
+					{ id: 'b', text: 'Le comparto tambien mi telefono', safe: false },
+					{ id: 'c', text: 'No la doy y aviso a mi familia', safe: true }
 				]
 			},
 			{
 				prompt: 'Para jugar seguro en linea, ¿que nombre usas?',
 				options: [
-					{ id: 'a', text: 'Mi nombre y apellido real', safe: false },
-					{ id: 'b', text: 'Un apodo sin datos personales', safe: true },
+					{ id: 'a', text: 'Un apodo sin datos personales', safe: true },
+					{ id: 'b', text: 'Mi nombre y apellido real', safe: false },
 					{ id: 'c', text: 'Mi direccion como nombre', safe: false }
 				]
 			},
@@ -223,21 +234,37 @@ const levels: LevelConfig[] = [
 		id: 'cyber',
 		order: 0,
 		requiredStars: 1,
-		enemyCount: 1,
+		enemyCount: 3,
 		enemySpeed: 0.55,
 		mapPosition: { x: 8, y: 72 },
-		stationPosition: { x: 22, y: 62 },
-		playerStart: { x: 10, y: 86 }
+		stationPosition: { x: 18, y: 55 },
+		playerStart: { x: 10, y: 86 },
+		subStations: [
+			{ position: { x: 10, y: 75 }, label: 'Escudo 1', emoji: '🛡️', challengeIndex: 0 },
+			{ position: { x: 50, y: 20 }, label: 'Escudo 2', emoji: '💬', challengeIndex: 1 },
+			{ position: { x: 88, y: 60 }, label: 'Escudo 3', emoji: '❤️', challengeIndex: 2 }
+		],
+		enemyEmojis: ['🧑‍💻', '👤', '👾'],
+		theme: 'cyber',
+		catchMessage: '¡Un acosador te alcanzo! Debes volver a empezar.'
 	},
 	{
 		id: 'fake',
 		order: 1,
 		requiredStars: 2,
-		enemyCount: 2,
+		enemyCount: 3,
 		enemySpeed: 0.7,
 		mapPosition: { x: 24, y: 58 },
 		stationPosition: { x: 36, y: 52 },
-		playerStart: { x: 10, y: 86 }
+		playerStart: { x: 10, y: 86 },
+		subStations: [
+			{ position: { x: 12, y: 30 }, label: 'Verificar 1', emoji: '🔍', challengeIndex: 0 },
+			{ position: { x: 55, y: 70 }, label: 'Verificar 2', emoji: '📋', challengeIndex: 1 },
+			{ position: { x: 85, y: 25 }, label: 'Verificar 3', emoji: '✅', challengeIndex: 2 }
+		],
+		enemyEmojis: ['📢', '🗞️', '🤥'],
+		theme: 'fakenews',
+		catchMessage: '¡Una noticia falsa te atrapo! Debes volver a empezar.'
 	},
 	{
 		id: 'identity',
@@ -247,27 +274,51 @@ const levels: LevelConfig[] = [
 		enemySpeed: 0.82,
 		mapPosition: { x: 40, y: 48 },
 		stationPosition: { x: 50, y: 40 },
-		playerStart: { x: 12, y: 84 }
+		playerStart: { x: 12, y: 84 },
+		subStations: [
+			{ position: { x: 15, y: 20 }, label: 'Clave 1', emoji: '🔑', challengeIndex: 0 },
+			{ position: { x: 50, y: 75 }, label: 'Clave 2', emoji: '🛡️', challengeIndex: 1 },
+			{ position: { x: 85, y: 35 }, label: 'Clave 3', emoji: '🔐', challengeIndex: 2 }
+		],
+		enemyEmojis: ['🕵️', '👁️', '💀'],
+		theme: 'identity',
+		catchMessage: '¡Un suplantador robo tu identidad! Debes volver a empezar.'
 	},
 	{
 		id: 'grooming',
 		order: 3,
 		requiredStars: 3,
-		enemyCount: 4,
+		enemyCount: 3,
 		enemySpeed: 0.95,
 		mapPosition: { x: 58, y: 33 },
 		stationPosition: { x: 66, y: 26 },
-		playerStart: { x: 12, y: 84 }
+		playerStart: { x: 12, y: 84 },
+		subStations: [
+			{ position: { x: 10, y: 25 }, label: 'Alerta 1', emoji: '🚨', challengeIndex: 0 },
+			{ position: { x: 48, y: 80 }, label: 'Alerta 2', emoji: '⚠️', challengeIndex: 1 },
+			{ position: { x: 88, y: 15 }, label: 'Alerta 3', emoji: '🆘', challengeIndex: 2 }
+		],
+		enemyEmojis: ['🐺', '🎭', '🤡'],
+		theme: 'grooming',
+		catchMessage: '¡Un desconocido peligroso te alcanzo! Debes volver a empezar.'
 	},
 	{
 		id: 'games',
 		order: 4,
 		requiredStars: 3,
-		enemyCount: 5,
+		enemyCount: 3,
 		enemySpeed: 1.08,
 		mapPosition: { x: 76, y: 20 },
 		stationPosition: { x: 84, y: 16 },
-		playerStart: { x: 14, y: 82 }
+		playerStart: { x: 14, y: 82 },
+		subStations: [
+			{ position: { x: 12, y: 65 }, label: 'Escudo G1', emoji: '🎮', challengeIndex: 0 },
+			{ position: { x: 50, y: 15 }, label: 'Escudo G2', emoji: '🕹️', challengeIndex: 1 },
+			{ position: { x: 88, y: 55 }, label: 'Escudo G3', emoji: '🏆', challengeIndex: 2 }
+		],
+		enemyEmojis: ['👾', '🤖', '☠️'],
+		theme: 'gamer',
+		catchMessage: '¡Un jugador malicioso te atrapo! Debes volver a empezar.'
 	}
 ];
 
@@ -356,7 +407,8 @@ function buildCollectiblesForLevel(level: LevelConfig): Array<Position & { id: s
 }
 
 function buildEnemiesForLevel(level: LevelConfig): Enemy[] {
-	const icons = ['👾', '🐲', '👻'];
+	const defaultIcons = ['👾', '🐲', '👻'];
+	const icons = level.enemyEmojis ?? defaultIcons;
 	const start = (level.order * 2) % enemySpawnPool.length;
 	const list: Enemy[] = [];
 
@@ -385,11 +437,16 @@ export default function MiniEscapeClient() {
 	const [enemies, setEnemies] = useState<Enemy[]>([]);
 	const [enemyHits, setEnemyHits] = useState(0);
 	const [activeStation, setActiveStation] = useState<StationId | null>(null);
+	const [activeSubIndex, setActiveSubIndex] = useState<number>(-1);
+	const [completedSubStations, setCompletedSubStations] = useState<number[]>([]);
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedChoice, setSelectedChoice] = useState('');
 	const [verifiedAnswer, setVerifiedAnswer] = useState(false);
 	const [challengeDone, setChallengeDone] = useState(false);
 	const [levelCleared, setLevelCleared] = useState(false);
+	const [hackerAlert, setHackerAlert] = useState(false);
+	const [correctAnswers, setCorrectAnswers] = useState(0);
+	const [wrongAnswers, setWrongAnswers] = useState(0);
 	const [voiceEnabled, setVoiceEnabled] = useState(true);
 	const [levelMessage, setLevelMessage] = useState('Elige un nivel en el mapa para empezar.');
 
@@ -408,13 +465,21 @@ export default function MiniEscapeClient() {
 	}, [activeLevelId]);
 
 	const activeStationData = activeLevel ? stationById[activeLevel.id] : null;
+
+	const hasSubStations = Boolean(activeLevel?.subStations && activeLevel.subStations.length > 0);
+
 	const activeQuestion = useMemo(() => {
 		if (!activeStationData) {
 			return null;
 		}
 
+		if (hasSubStations && activeSubIndex >= 0 && activeLevel?.subStations) {
+			const sub = activeLevel.subStations[activeSubIndex];
+			return activeStationData.challenges[sub.challengeIndex] ?? null;
+		}
+
 		return activeStationData.challenges[questionIndex] ?? null;
-	}, [activeStationData, questionIndex]);
+	}, [activeStationData, activeLevel, activeSubIndex, hasSubStations, questionIndex]);
 	const questionPaletteClass = `question-palette-${(questionIndex % 3) + 1}`;
 	const selectedOption = activeQuestion?.options.find((option) => option.id === selectedChoice) ?? null;
 
@@ -435,7 +500,10 @@ export default function MiniEscapeClient() {
 	}, [activeLevel]);
 
 	const requiredStars = activeLevel?.requiredStars ?? 0;
-	const canClearLevel = challengeDone && stars >= requiredStars;
+	const allSubsDone = hasSubStations && activeLevel?.subStations
+		? completedSubStations.length >= activeLevel.subStations.length
+		: challengeDone;
+	const canClearLevel = allSubsDone && stars >= requiredStars;
 	const completedCount = completedLevels.length;
 	const progressPercent = Math.round((completedCount / levels.length) * 100);
 
@@ -507,12 +575,21 @@ export default function MiniEscapeClient() {
 		setEnemyHits(0);
 		stationContactRef.current = false;
 		setActiveStation(null);
+		setActiveSubIndex(-1);
+		setCompletedSubStations([]);
+		setHackerAlert(false);
+		setCorrectAnswers(0);
+		setWrongAnswers(0);
 		setQuestionIndex(0);
 		setSelectedChoice('');
 		setVerifiedAnswer(false);
 		setChallengeDone(false);
 		setLevelCleared(false);
-		setLevelMessage(`Nivel ${level.order + 1}: responde todas las preguntas y recoge ${level.requiredStars} estrellas.`);
+		const subCount = level.subStations?.length ?? 0;
+		const stationLabel = subCount > 0
+			? `visita ${subCount} tarjetas y responde sus preguntas`
+			: `responde todas las preguntas`;
+		setLevelMessage(`Nivel ${level.order + 1}: ${stationLabel} y recoge ${level.requiredStars} estrellas.`);
 	}
 
 	function startLevel(levelId: StationId) {
@@ -529,20 +606,29 @@ export default function MiniEscapeClient() {
 	function closeStation() {
 		stopVoice();
 		setActiveStation(null);
+		setActiveSubIndex(-1);
 		stationContactRef.current = true;
 		setQuestionIndex(0);
 		setSelectedChoice('');
 		setVerifiedAnswer(false);
 	}
 
-	function openStation() {
-		if (!activeLevel || challengeDone) {
+	function openStation(subIndex?: number) {
+		if (!activeLevel) {
+			return;
+		}
+
+		if (subIndex !== undefined) {
+			if (completedSubStations.includes(subIndex)) {
+				return;
+			}
+		} else if (challengeDone) {
 			return;
 		}
 
 		stationContactRef.current = true;
 		setActiveStation(activeLevel.id);
-		setQuestionIndex(0);
+		setActiveSubIndex(subIndex ?? -1);
 		setSelectedChoice('');
 		setVerifiedAnswer(false);
 	}
@@ -555,6 +641,36 @@ export default function MiniEscapeClient() {
 		setVerifiedAnswer(true);
 
 		if (!selectedOption.safe) {
+			setWrongAnswers((prev) => prev + 1);
+			if (hasSubStations) {
+				setTimeout(() => {
+					setActiveStation(null);
+					setActiveSubIndex(-1);
+					setSelectedChoice('');
+					setVerifiedAnswer(false);
+					setPlayer(activeLevel.playerStart);
+					setLevelMessage('Respuesta incorrecta. El acosador te devolvio al inicio. ¡Intentalo de nuevo!');
+				}, 1200);
+			}
+			return;
+		}
+
+		setCorrectAnswers((prev) => prev + 1);
+
+		if (hasSubStations && activeSubIndex >= 0) {
+			if (!completedSubStations.includes(activeSubIndex)) {
+				setCompletedSubStations((prev) => [...prev, activeSubIndex]);
+			}
+			const remaining = (activeLevel.subStations?.length ?? 0) - completedSubStations.length - 1;
+			setActiveStation(null);
+			setActiveSubIndex(-1);
+			setSelectedChoice('');
+			setVerifiedAnswer(false);
+			if (remaining > 0) {
+				setLevelMessage(`¡Correcto! Faltan ${remaining} tarjeta${remaining > 1 ? 's' : ''} por responder.`);
+			} else {
+				setLevelMessage(`¡Excelente! Respondiste todas las tarjetas. Recoge ${requiredStars} estrellas para superar el nivel.`);
+			}
 			return;
 		}
 
@@ -580,7 +696,7 @@ export default function MiniEscapeClient() {
 			return;
 		}
 
-		const earned = Math.max(80, 120 + activeLevel.order * 35 + stars * 14 - enemyHits * 8);
+		const earned = Math.max(50, 100 + activeLevel.order * 30 + correctAnswers * 25 + stars * 10 - wrongAnswers * 15 - enemyHits * 20);
 		const nextCompleted = completedLevels.includes(activeLevel.id)
 			? completedLevels
 			: [...completedLevels, activeLevel.id];
@@ -637,7 +753,7 @@ export default function MiniEscapeClient() {
 	}
 
 	function movePlayer(dx: number, dy: number) {
-		if (mode !== 'play' || levelCleared) {
+		if (mode !== 'play' || levelCleared || hackerAlert) {
 			return;
 		}
 
@@ -688,7 +804,7 @@ export default function MiniEscapeClient() {
 	}, []);
 
 	useEffect(() => {
-		if (mode !== 'play' || !activeLevel || levelCleared || activeStation) {
+		if (mode !== 'play' || !activeLevel || levelCleared || activeStation || hackerAlert) {
 			return;
 		}
 
@@ -698,10 +814,34 @@ export default function MiniEscapeClient() {
 		}, 220);
 
 		return () => window.clearInterval(interval);
-	}, [activeLevel, activeStation, levelCleared, mode]);
+	}, [activeLevel, activeStation, hackerAlert, levelCleared, mode]);
 
 	useEffect(() => {
-		if (mode !== 'play' || !activeLevel || challengeDone || activeStation) {
+		if (mode !== 'play' || !activeLevel || activeStation) {
+			return;
+		}
+
+		if (activeLevel.subStations && activeLevel.subStations.length > 0) {
+			for (let i = 0; i < activeLevel.subStations.length; i += 1) {
+				if (completedSubStations.includes(i)) {
+					continue;
+				}
+				const sub = activeLevel.subStations[i];
+				const dist = distance(player, sub.position);
+				if (dist <= 6.6) {
+					if (!stationContactRef.current) {
+						openStation(i);
+					}
+					return;
+				}
+			}
+			if (activeLevel.subStations.every((sub) => distance(player, sub.position) >= 9)) {
+				stationContactRef.current = false;
+			}
+			return;
+		}
+
+		if (challengeDone) {
 			return;
 		}
 
@@ -716,10 +856,10 @@ export default function MiniEscapeClient() {
 		if (stationDistance >= 9) {
 			stationContactRef.current = false;
 		}
-	}, [activeLevel, activeStation, challengeDone, mode, player]);
+	}, [activeLevel, activeStation, challengeDone, completedSubStations, mode, player]);
 
 	useEffect(() => {
-		if (mode !== 'play' || !activeLevel || levelCleared) {
+		if (mode !== 'play' || !activeLevel || levelCleared || hackerAlert) {
 			return;
 		}
 
@@ -729,9 +869,20 @@ export default function MiniEscapeClient() {
 		}
 
 		setEnemyHits((prev) => prev + 1);
-		setStars((prev) => Math.max(0, prev - 1));
-		setPlayer(activeLevel.playerStart);
-		setLevelMessage('Un enemigo te persiguio. Regresas al inicio del nivel y pierdes 1 estrella.');
+
+		if (activeLevel.catchMessage) {
+			setHackerAlert(true);
+			setStars(0);
+			setCollectedItems([]);
+			setCompletedSubStations([]);
+			setEnemies(buildEnemiesForLevel(activeLevel));
+			setPlayer(activeLevel.playerStart);
+			setLevelMessage(activeLevel.catchMessage);
+		} else {
+			setStars((prev) => Math.max(0, prev - 1));
+			setPlayer(activeLevel.playerStart);
+			setLevelMessage('Un enemigo te persiguio. Regresas al inicio del nivel y pierdes 1 estrella.');
+		}
 	}, [activeLevel, enemies, levelCleared, mode, player]);
 
 	useEffect(() => {
@@ -822,10 +973,31 @@ export default function MiniEscapeClient() {
 			{mode === 'map' ? (
 				<section className="mini-level-map-stage">
 					<div className="mini-level-map-title">
-						<h2>🗺️ Ruta de Niveles 4-8</h2>
-						<p>Completa cada nivel para desbloquear el siguiente.</p>
+						<h2>🗺️ Ruta de Aventuras</h2>
+						<p>¡Completa cada nivel para desbloquear el siguiente!</p>
 					</div>
 					<div className="mini-level-map-board">
+						<span className="map-deco" style={{ left: '2%', top: '18%', fontSize: '2.2rem', animationDelay: '0s' }}>🌳</span>
+						<span className="map-deco" style={{ left: '92%', top: '75%', fontSize: '2rem', animationDelay: '0.5s' }}>🌴</span>
+						<span className="map-deco" style={{ left: '50%', top: '72%', fontSize: '1.5rem', animationDelay: '0.2s' }}>🌻</span>
+						<span className="map-deco" style={{ left: '88%', top: '6%', fontSize: '2.4rem', animationDelay: '0.7s' }}>🏔️</span>
+						<span className="map-deco" style={{ left: '16%', top: '90%', fontSize: '1.5rem', animationDelay: '0.3s' }}>🌸</span>
+						<span className="map-deco" style={{ left: '70%', top: '60%', fontSize: '1.4rem', animationDelay: '0.6s' }}>🍄</span>
+						<span className="map-deco" style={{ left: '30%', top: '5%', fontSize: '1.8rem', animationDelay: '0.8s' }}>☁️</span>
+						<span className="map-deco" style={{ left: '60%', top: '3%', fontSize: '1.6rem', animationDelay: '1s' }}>⛅</span>
+						<span className="map-deco" style={{ left: '8%', top: '3%', fontSize: '1.7rem', animationDelay: '0.4s' }}>☁️</span>
+						<span className="map-deco" style={{ left: '78%', top: '45%', fontSize: '1.3rem', animationDelay: '0.9s' }}>🦋</span>
+						<span className="map-deco" style={{ left: '38%', top: '82%', fontSize: '1.3rem', animationDelay: '0.15s' }}>🌿</span>
+						<svg className="mini-level-svg-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+							<path
+								d="M 8 72 C 14 68, 20 63, 24 58 C 28 53, 34 50, 40 48 C 46 44, 52 38, 58 33 C 64 28, 70 24, 76 20"
+								stroke="rgba(255,255,255,0.5)"
+								strokeWidth="1.6"
+								strokeDasharray="3 2.5"
+								fill="none"
+								strokeLinecap="round"
+							/>
+						</svg>
 						<div className="mini-level-map-path" />
 						{levelState.map((level) => {
 							const station = stationById[level.id];
@@ -838,6 +1010,7 @@ export default function MiniEscapeClient() {
 									className={`mini-level-node ${level.unlocked ? 'unlocked' : 'locked'} ${level.done ? 'done' : ''}`}
 									style={{ left: `${level.mapPosition.x}%`, top: `${level.mapPosition.y}%` }}
 								>
+									<span className="mini-level-node-ring" />
 									<span className="mini-level-node-number">{level.order + 1}</span>
 									<span className="mini-level-node-icon">{station.emoji}</span>
 									<span className="mini-level-node-label">{station.title}</span>
@@ -845,32 +1018,88 @@ export default function MiniEscapeClient() {
 							);
 						})}
 					</div>
+					<div className="mini-level-map-guide">
+						<div className="mini-map-guide-avatar bounce-fast">🧒</div>
+						<div className="mini-map-guide-bubble">
+							<p>💬 {levelMessage}</p>
+						</div>
+					</div>
 					<div className="mini-level-map-info">
-						<p>{levelMessage}</p>
 						<div className="mini-level-progress">
-							<span>Progreso</span>
+							<div className="mini-progress-header">
+								<span>⭐ Progreso</span>
+								<strong>{progressPercent}%</strong>
+							</div>
 							<progress value={progressPercent} max={100} aria-label="Progreso del modulo 4-8" />
-							<strong>{progressPercent}%</strong>
 						</div>
 					</div>
 				</section>
 			) : (
-				<section className="mini-world-scene" aria-label="Juego del nivel 4 a 8 anos">
-					{clouds}
-					{worldScenery.map((item) => (
-						<span key={item.id} className="mini-world-scenery" style={{ left: `${item.x}%`, top: `${item.y}%` }}>
-							{item.icon}
-						</span>
-					))}
-					{critters.map((critter, index) => (
-						<span
-							key={`${critter.emoji}-${index}`}
-							className="mini-world-critter"
-							style={{ left: `${critter.x}%`, top: `${critter.y}%`, animationDelay: critter.delay }}
-						>
-							{critter.emoji}
-						</span>
-					))}
+				<section className={`mini-world-scene${activeLevel?.theme ? ` theme-${activeLevel.theme}` : ''}`} aria-label="Juego del nivel 4 a 8 anos">
+					{!activeLevel?.theme && clouds}
+					{activeLevel?.theme === 'cyber' ? (
+						<>
+							<span className="theme-deco" style={{ left: '5%', top: '10%', fontSize: '1.8rem', animationDelay: '0s' }}>💻</span>
+							<span className="theme-deco" style={{ left: '85%', top: '15%', fontSize: '1.5rem', animationDelay: '0.3s' }}>📡</span>
+							<span className="theme-deco" style={{ left: '15%', top: '75%', fontSize: '1.6rem', animationDelay: '0.6s' }}>🔒</span>
+							<span className="theme-deco" style={{ left: '90%', top: '70%', fontSize: '1.4rem', animationDelay: '0.9s' }}>⚡</span>
+							<span className="theme-deco" style={{ left: '50%', top: '5%', fontSize: '2rem', animationDelay: '0.4s' }}>🛡️</span>
+							<span className="theme-deco" style={{ left: '70%', top: '85%', fontSize: '1.3rem', animationDelay: '0.7s' }}>🔐</span>
+						</>
+					) : activeLevel?.theme === 'fakenews' ? (
+						<>
+							<span className="theme-deco" style={{ left: '8%', top: '12%', fontSize: '1.8rem', animationDelay: '0s' }}>📰</span>
+							<span className="theme-deco" style={{ left: '82%', top: '18%', fontSize: '1.6rem', animationDelay: '0.4s' }}>🔎</span>
+							<span className="theme-deco" style={{ left: '20%', top: '80%', fontSize: '1.5rem', animationDelay: '0.7s' }}>📺</span>
+							<span className="theme-deco" style={{ left: '88%', top: '72%', fontSize: '1.4rem', animationDelay: '0.2s' }}>📱</span>
+							<span className="theme-deco" style={{ left: '45%', top: '6%', fontSize: '2rem', animationDelay: '0.5s' }}>❓</span>
+							<span className="theme-deco" style={{ left: '65%', top: '88%', fontSize: '1.3rem', animationDelay: '0.9s' }}>✍️</span>
+						</>
+					) : activeLevel?.theme === 'identity' ? (
+						<>
+							<span className="theme-deco" style={{ left: '6%', top: '15%', fontSize: '1.8rem', animationDelay: '0s' }}>🔑</span>
+							<span className="theme-deco" style={{ left: '88%', top: '10%', fontSize: '1.6rem', animationDelay: '0.3s' }}>🔒</span>
+							<span className="theme-deco" style={{ left: '18%', top: '82%', fontSize: '1.5rem', animationDelay: '0.6s' }}>🪪</span>
+							<span className="theme-deco" style={{ left: '85%', top: '75%', fontSize: '1.4rem', animationDelay: '0.8s' }}>🛡️</span>
+							<span className="theme-deco" style={{ left: '50%', top: '4%', fontSize: '2rem', animationDelay: '0.4s' }}>🔐</span>
+							<span className="theme-deco" style={{ left: '72%', top: '85%', fontSize: '1.3rem', animationDelay: '1s' }}>🧩</span>
+						</>
+					) : activeLevel?.theme === 'grooming' ? (
+						<>
+							<span className="theme-deco" style={{ left: '7%', top: '10%', fontSize: '1.8rem', animationDelay: '0s' }}>🚨</span>
+							<span className="theme-deco" style={{ left: '86%', top: '12%', fontSize: '1.6rem', animationDelay: '0.3s' }}>⚠️</span>
+							<span className="theme-deco" style={{ left: '15%', top: '78%', fontSize: '1.5rem', animationDelay: '0.6s' }}>🚫</span>
+							<span className="theme-deco" style={{ left: '90%', top: '68%', fontSize: '1.4rem', animationDelay: '0.9s' }}>🆘</span>
+							<span className="theme-deco" style={{ left: '48%', top: '5%', fontSize: '2rem', animationDelay: '0.4s' }}>👁️</span>
+							<span className="theme-deco" style={{ left: '68%', top: '82%', fontSize: '1.3rem', animationDelay: '0.7s' }}>🔔</span>
+						</>
+					) : activeLevel?.theme === 'gamer' ? (
+						<>
+							<span className="theme-deco" style={{ left: '5%', top: '14%', fontSize: '1.8rem', animationDelay: '0s' }}>🎮</span>
+							<span className="theme-deco" style={{ left: '84%', top: '10%', fontSize: '1.6rem', animationDelay: '0.3s' }}>🕹️</span>
+							<span className="theme-deco" style={{ left: '12%', top: '80%', fontSize: '1.5rem', animationDelay: '0.6s' }}>🏆</span>
+							<span className="theme-deco" style={{ left: '88%', top: '76%', fontSize: '1.4rem', animationDelay: '0.9s' }}>⭐</span>
+							<span className="theme-deco" style={{ left: '52%', top: '3%', fontSize: '2rem', animationDelay: '0.4s' }}>🎯</span>
+							<span className="theme-deco" style={{ left: '70%', top: '88%', fontSize: '1.3rem', animationDelay: '0.7s' }}>💎</span>
+						</>
+					) : (
+						<>
+							{worldScenery.map((item) => (
+								<span key={item.id} className="mini-world-scenery" style={{ left: `${item.x}%`, top: `${item.y}%` }}>
+									{item.icon}
+								</span>
+							))}
+							{critters.map((critter, index) => (
+								<span
+									key={`${critter.emoji}-${index}`}
+									className="mini-world-critter"
+									style={{ left: `${critter.x}%`, top: `${critter.y}%`, animationDelay: critter.delay }}
+								>
+									{critter.emoji}
+								</span>
+							))}
+						</>
+					)}
 
 					{activeCollectibles
 						.filter((item) => !collectedItems.includes(item.id))
@@ -881,15 +1110,32 @@ export default function MiniEscapeClient() {
 						))}
 
 					{enemies.map((enemy) => (
-						<span key={enemy.id} className="mini-world-enemy" style={{ left: `${enemy.position.x}%`, top: `${enemy.position.y}%` }}>
+						<span key={enemy.id} className={`mini-world-enemy${activeLevel?.theme ? ' themed-enemy' : ''}`} style={{ left: `${enemy.position.x}%`, top: `${enemy.position.y}%` }}>
 							{enemy.emoji}
 						</span>
 					))}
 
-					{activeLevel && activeStationData ? (
+					{activeLevel && activeStationData && activeLevel.subStations && activeLevel.subStations.length > 0 ? (
+						activeLevel.subStations.map((sub, index) => {
+							const isDone = completedSubStations.includes(index);
+							return (
+								<button
+									key={`sub-${index}`}
+									type="button"
+									onClick={() => openStation(index)}
+									disabled={isDone}
+									className={`mini-world-station sub-station ${isDone ? 'done' : ''}`}
+									style={{ left: `${sub.position.x}%`, top: `${sub.position.y}%` }}
+								>
+									<span className="station-emoji">{isDone ? '✅' : sub.emoji}</span>
+									<span className="station-title">{sub.label}</span>
+								</button>
+							);
+						})
+					) : activeLevel && activeStationData ? (
 						<button
 							type="button"
-							onClick={openStation}
+							onClick={() => openStation()}
 							disabled={challengeDone}
 							className={`mini-world-station ${challengeDone ? 'done' : ''}`}
 							style={{ left: `${activeLevel.stationPosition.x}%`, top: `${activeLevel.stationPosition.y}%` }}
@@ -906,12 +1152,31 @@ export default function MiniEscapeClient() {
 					{levelCleared ? (
 						<div className="mini-world-complete slide-in">
 							<h2>¡Nivel superado!</h2>
-							<p>
-								Completaste la pregunta y reuniste {stars} estrellas. Excelente trabajo.
+							<div className="level-score-summary">
+								<p>✅ Respuestas correctas: <strong>{correctAnswers}</strong></p>
+								<p>❌ Respuestas incorrectas: <strong>{wrongAnswers}</strong></p>
+								<p>💀 Veces atrapado: <strong>{enemyHits}</strong></p>
+								<p>⭐ Estrellas: <strong>{stars}</strong></p>
+							</div>
+							<p className="level-score-total">
+								Puntuacion: <strong>{Math.max(50, 100 + (activeLevel?.order ?? 0) * 30 + correctAnswers * 25 + stars * 10 - wrongAnswers * 15 - enemyHits * 20)}</strong> puntos
 							</p>
 							<div className="mini-complete-actions">
 								<button className="game-button primary" onClick={finishLevel}>
 									Continuar al siguiente nivel
+								</button>
+							</div>
+						</div>
+					) : null}
+
+					{hackerAlert ? (
+						<div className="mini-world-complete slide-in hacker-alert-overlay">
+							<div className="hacker-alert-icon">🧑‍💻</div>
+							<h2>¡Te atrapó un acosador!</h2>
+							<p>Un hacker te alcanzó y debes volver a empezar el nivel. ¡Ten más cuidado!</p>
+							<div className="mini-complete-actions">
+								<button className="game-button primary" onClick={() => setHackerAlert(false)}>
+									Volver a intentar
 								</button>
 							</div>
 						</div>
@@ -959,13 +1224,15 @@ export default function MiniEscapeClient() {
 			{activeStationData && activeStation && activeQuestion ? (
 				<div className="mini-world-dialog-backdrop" onClick={closeStation}>
 					<div
-						key={`${activeStationData.id}-${questionIndex}`}
-						className={`mini-world-dialog slide-in ${questionPaletteClass}`}
+						key={`${activeStationData.id}-${hasSubStations ? activeSubIndex : questionIndex}`}
+						className={`mini-world-dialog slide-in ${hasSubStations ? '' : questionPaletteClass}`}
 						onClick={(event) => event.stopPropagation()}
 					>
 						<div className="mini-dialog-head">
 							<h3>
-								{activeStationData.emoji} {activeStationData.title}
+								{activeStationData.emoji} {hasSubStations && activeSubIndex >= 0 && activeLevel?.subStations
+									? activeLevel.subStations[activeSubIndex].label
+									: activeStationData.title}
 							</h3>
 							<div>
 								<button
@@ -979,18 +1246,27 @@ export default function MiniEscapeClient() {
 						</div>
 						<p>{activeStationData.description}</p>
 						<p className="mini-hint">{activeStationData.guidance}</p>
-						<p className="mini-hint">Pregunta {questionIndex + 1} de {activeStationData.challenges.length}</p>
-						<div className="mini-question-palette-track" aria-label="Paletas de preguntas">
-							{activeStationData.challenges.map((_, index) => {
-								const paletteClass = `palette-${(index % 3) + 1}`;
-								const stateClass = index === questionIndex ? 'active' : index < questionIndex ? 'done' : 'pending';
-								return (
-									<span key={`${activeStationData.id}-palette-${index}`} className={`mini-question-palette ${paletteClass} ${stateClass}`}>
-										Paleta {index + 1}
-									</span>
-								);
-							})}
-						</div>
+
+						{hasSubStations ? (
+							<p className="mini-hint">
+								Tarjeta {activeSubIndex + 1} de {activeLevel?.subStations?.length ?? 0} — Respondidas: {completedSubStations.length}
+							</p>
+						) : (
+							<>
+								<p className="mini-hint">Pregunta {questionIndex + 1} de {activeStationData.challenges.length}</p>
+								<div className="mini-question-palette-track" aria-label="Paletas de preguntas">
+									{activeStationData.challenges.map((_, index) => {
+										const paletteClass = `palette-${(index % 3) + 1}`;
+										const stateClass = index === questionIndex ? 'active' : index < questionIndex ? 'done' : 'pending';
+										return (
+											<span key={`${activeStationData.id}-palette-${index}`} className={`mini-question-palette ${paletteClass} ${stateClass}`}>
+												Paleta {index + 1}
+											</span>
+										);
+									})}
+								</div>
+							</>
+						)}
 
 						<div className="truth-options">
 							<p className="mini-question">{activeQuestion.prompt}</p>
@@ -1020,7 +1296,9 @@ export default function MiniEscapeClient() {
 							<p className={selectedOption.safe ? 'feedback-ok' : 'feedback-bad'}>
 								{selectedOption.safe
 									? 'Muy bien. Esa es una accion segura.'
-									: 'Ups. Esa accion no es segura. Intenta de nuevo.'}
+									: hasSubStations
+										? '¡Incorrecto! El acosador te devuelve al inicio...'
+										: 'Ups. Esa accion no es segura. Intenta de nuevo.'}
 							</p>
 						) : null}
 

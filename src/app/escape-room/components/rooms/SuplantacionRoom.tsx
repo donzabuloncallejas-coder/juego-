@@ -16,12 +16,15 @@ type Rune = {
 };
 
 const runes: Rune[] = [
-	{ id: 'confirmar', label: 'Confirmar identidad por canal alterno', icon: '✅', safe: true },
-	{ id: 'contrasena', label: 'Nunca compartir contrasena', icon: '🔑', safe: true },
-	{ id: 'privacidad', label: 'Ajustar privacidad del perfil', icon: '🔒', safe: true },
-	{ id: 'reportar', label: 'Reportar perfiles sospechosos', icon: '🚩', safe: true },
-	{ id: 'reenviar-codigo', label: 'Reenviar codigos de verificacion', icon: '📩', safe: false },
-	{ id: 'publicar-datos', label: 'Publicar datos para validar cuenta', icon: '📢', safe: false }
+	{ id: 'confirmar', label: 'Verificar identidad por videollamada o canal alterno conocido', icon: '✅', safe: true },
+	{ id: 'contrasena', label: 'Nunca compartir contrasenas ni codigos de acceso con nadie', icon: '🔑', safe: true },
+	{ id: 'privacidad', label: 'Configurar la privacidad del perfil al maximo nivel posible', icon: '🔒', safe: true },
+	{ id: 'reportar', label: 'Reportar perfiles sospechosos a la plataforma y a un adulto', icon: '🚩', safe: true },
+	{ id: 'misma-clave', label: 'Usar la misma contrasena compleja en todas mis cuentas para memorizarla mejor', icon: '🧠', safe: false },
+	{ id: 'prestar-cuenta', label: 'Prestar temporalmente mi cuenta a un amigo cercano que la necesita', icon: '🤝', safe: false },
+	{ id: 'verificar-doc', label: 'Responder correos de soporte tecnico pidiendo verificar mis datos de acceso', icon: '📧', safe: false },
+	{ id: 'conocidos', label: 'Aceptar solicitudes de conocidos de mis amigos para ampliar mi red segura', icon: '👥', safe: false },
+	{ id: 'guardar-clave', label: 'Guardar mis contrasenas en un documento en el celular para no olvidarlas', icon: '📱', safe: false }
 ];
 
 export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) {
@@ -78,13 +81,12 @@ export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) 
 				<div className="hud-pill">⚠️ Intentos inseguros: {mistakes}</div>
 
 				<div
-					className="glass-card"
+					className="glass-card identity-shield-card"
 					style={{
 						minHeight: 220,
 						padding: '1rem',
 						display: 'grid',
-						placeItems: 'center',
-						background: 'radial-gradient(circle at 50% 35%, #fef9c3, #dcfce7)'
+						placeItems: 'center'
 					}}
 				>
 					<div style={{ textAlign: 'center' }}>
@@ -109,7 +111,7 @@ export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) 
 							<button
 								key={rune.id}
 								onClick={() => installRune(rune)}
-								className={active ? 'game-button secondary' : rune.safe ? 'game-button primary' : 'game-button secondary'}
+								className={active ? 'game-button secondary' : 'game-button primary'}
 								style={{ textAlign: 'left' }}
 							>
 								<strong>
@@ -119,9 +121,7 @@ export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) 
 								<small>
 									{active
 										? 'Proteccion instalada'
-										: rune.safe
-											? 'Toca para activar esta defensa'
-											: 'Trampa: resta progreso si la activas'}
+										: 'Toca para activar esta defensa'}
 								</small>
 							</button>
 						);
@@ -130,7 +130,7 @@ export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) 
 
 				<TruthChallenge
 					title="Chequeo de identidad"
-					prompt="Un perfil parecido al de tu amigo te escribe por urgencia y pide acceso. ¿Que haces?"
+					prompt="Tu mejor amigo te escribe desde una cuenta nueva. Dice que perdio acceso a la anterior y necesita que le reenvies un codigo que te llegara por SMS. Su forma de escribir parece autentica y menciona recuerdos reales. ¿Que haces?"
 					onSelectionChange={(value) => {
 						setChallengeSelection(value);
 						setVerified(false);
@@ -139,22 +139,22 @@ export default function SuplantacionRoom({ onComplete }: SuplantacionRoomProps) 
 					revealResult={verified}
 					options={[
 						{
-							id: 'clave',
-							text: 'Le comparto un codigo temporal solo por esta vez',
+							id: 'verificar-dato',
+							text: 'Le pido que me diga algo que solo el sabria para confirmar antes de enviar el codigo',
 							isCorrect: false,
-							reason: 'Los codigos y credenciales nunca se comparten, ni temporalmente.'
+							reason: 'Un suplantador puede haber obtenido informacion personal de redes. Verificar con preguntas no es suficiente.'
 						},
 						{
-							id: 'validar-canal',
-							text: 'Valido por llamada/video conocida y no comparto credenciales',
+							id: 'no-reenviar',
+							text: 'No reenvio ningun codigo bajo ninguna circunstancia, lo contacto por un medio que ya tenia guardado y le cuento a un adulto',
 							isCorrect: true,
-							reason: 'Correcto. Confirmar por canal alterno reduce suplantaciones.'
+							reason: 'Correcto. Los codigos SMS nunca se reenvian. Contactar por un canal previo confirma la identidad real.'
 						},
 						{
-							id: 'publicar',
-							text: 'Le pido prueba y publico un dato mio para confirmar',
+							id: 'foto-prueba',
+							text: 'Le pido que me envie una foto actual sosteniendo un papel con mi nombre para comprobar que es el',
 							isCorrect: false,
-							reason: 'Publicar datos personales aumenta el riesgo de fraude.'
+							reason: 'Las fotos pueden ser editadas o generadas con IA. No es un metodo seguro de verificacion.'
 						}
 					]}
 				/>

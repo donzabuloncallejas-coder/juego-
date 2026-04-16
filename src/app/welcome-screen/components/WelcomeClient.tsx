@@ -53,8 +53,10 @@ export default function WelcomeClient() {
 			))}
 
 			<section className="glass-card slide-in cover-card">
-				<header style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-					<AppLogo compact />
+				<header className="cover-header">
+					<div className="cover-header-brand">
+						<AppLogo />
+					</div>
 					<div className="flow-steps">
 						<span className="step-pill">1. Mira la portada</span>
 						<span className="step-pill">2. Elige tu edad</span>
