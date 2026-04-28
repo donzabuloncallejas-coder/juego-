@@ -33,7 +33,7 @@ type GateQuestion = {
 	id: string;
 	cell: string;
 	prompt: string;
-	options: GateOption[];
+	options: [GateOption, GateOption];
 };
 
 const mazeLayout = [
@@ -59,75 +59,57 @@ const gateQuestions: GateQuestion[] = [
 	{
 		id: 'gate-1',
 		cell: '2-8',
-		prompt: 'Alguien que conociste en un juego te invita a hablar por una app donde los mensajes se borran solos. Dice que es por privacidad y que todos sus amigos la usan. ¿Que haces?',
+		prompt: 'Alguien mayor que no conoces te pide continuar por chat privado. ¿Que haces?',
 		options: [
 			{
-				id: 'g1-risk-a',
-				text: 'Acepto pero con reglas claras: no compartir fotos ni datos, y si algo me incomoda me salgo de inmediato',
-				isCorrect: false,
-				reason: 'Poner reglas suena sensato, pero aceptar el cambio a una app sin registro de mensajes ya es ceder terreno al manipulador.'
-			},
-			{
 				id: 'g1-safe',
-				text: 'No acepto porque una app que borra mensajes elimina la posibilidad de tener evidencia, y aviso a un adulto',
+				text: 'Corto el chat, bloqueo y aviso a un adulto de confianza',
 				isCorrect: true,
-				reason: 'Correcto. Las apps con mensajes efimeros buscan borrar evidencia. Eso es una senal de alerta clara.'
+				reason: 'Correcto. Cortar, bloquear e informar reduce el riesgo.'
 			},
 			{
-				id: 'g1-risk-b',
-				text: 'Le digo que prefiero seguir hablando en la plataforma del juego donde hay moderadores y reglas de la comunidad',
+				id: 'g1-risk',
+				text: 'Sigo hablando para entender mejor su intencion',
 				isCorrect: false,
-				reason: 'Quedarte en la plataforma es mejor que cambiar de app, pero no aborda el problema: alguien que busca eliminar evidencia tiene intenciones sospechosas.'
+				reason: 'Mantener contacto aumenta el riesgo aunque parezca inofensivo.'
 			}
 		]
 	},
 	{
 		id: 'gate-2',
 		cell: '6-6',
-		prompt: 'Un contacto de internet te dice que eres muy especial y que la relacion entre ustedes es algo que los demas no entenderian. Te pide que no le cuentes a nadie. ¿Que opcion es segura?',
+		prompt: 'Te piden mantener secreto sobre una conversacion en internet. ¿Que opcion es segura?',
 		options: [
 			{
-				id: 'g2-risk-a',
-				text: 'Le digo que no guardare secretos pero sigo hablando con el mientras no me pida nada raro',
+				id: 'g2-risk',
+				text: 'Guardar el secreto mientras no me pidan nada mas',
 				isCorrect: false,
-				reason: 'Rechazar el secreto esta bien, pero seguir la relacion con alguien que intento aislar mantiene el riesgo activo.'
-			},
-			{
-				id: 'g2-risk-b',
-				text: 'Acepto que la relacion es especial pero le cuento a mi mejor amigo para tener a alguien que sepa de la situacion',
-				isCorrect: false,
-				reason: 'Contarle a un amigo es mejor que el silencio total, pero validar la relacion como especial y no hablar con un adulto no te protege de verdad.'
+				reason: 'Ese tipo de secreto es una alerta y debe informarse.'
 			},
 			{
 				id: 'g2-safe',
-				text: 'Ninguna relacion sana pide silencio. Corto la comunicacion y se lo cuento a un adulto de confianza',
+				text: 'Contarlo de inmediato a un adulto y guardar evidencia',
 				isCorrect: true,
-				reason: 'Correcto. Pedir secretos sobre la relacion es una senal clasica de grooming para aislar a la victima.'
+				reason: 'Correcto. Reportar pronto protege y permite actuar a tiempo.'
 			}
 		]
 	},
 	{
 		id: 'gate-3',
 		cell: '8-4',
-		prompt: 'Alguien te ofrece regalos virtuales en un juego a cambio de que enciendas tu camara en privado. Dice que es solo para conocerte mejor y que muchos lo hacen. ¿Que haces?',
+		prompt: 'Un contacto insiste en recibir foto personal para "confiar". ¿Que haces?',
 		options: [
 			{
-				id: 'g3-risk-a',
-				text: 'Acepto solo con la camara tapada parcialmente y sin mostrar mi habitacion ni datos personales',
-				isCorrect: false,
-				reason: 'Cualquier nivel de aceptacion normaliza la dinamica y abre la puerta a peticiones mas graves.'
-			},
-			{
-				id: 'g3-risk-b',
-				text: 'Le digo que primero haga una videollamada con mis papas presentes para demostrar que tiene buenas intenciones',
-				isCorrect: false,
-				reason: 'Involucrar a los padres es positivo, pero negociar condiciones con un posible depredador lo mantiene en tu vida en vez de cortarlo.'
-			},
-			{
 				id: 'g3-safe',
-				text: 'Ningun regalo justifica encender camara para un desconocido. Bloqueo, reporto y aviso a un adulto',
+				text: 'No envio nada, bloqueo y reporto la cuenta',
 				isCorrect: true,
-				reason: 'Correcto. Los regalos con condiciones son una forma de manipulacion progresiva.'
+				reason: 'Correcto. No enviar contenido personal es la decision segura.'
+			},
+			{
+				id: 'g3-risk',
+				text: 'Envio solo una foto sin mostrar informacion',
+				isCorrect: false,
+				reason: 'Cualquier envio puede reutilizarse para presionarte.'
 			}
 		]
 	}
@@ -202,9 +184,8 @@ export default function GroomingRoom({ onComplete }: GroomingRoomProps) {
 		const order: Record<string, GateOption[]> = {};
 		for (const gate of gateQuestions) {
 			const shuffled = [...gate.options];
-			for (let i = shuffled.length - 1; i > 0; i--) {
-				const j = Math.floor(Math.random() * (i + 1));
-				[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+			if (Math.random() > 0.5) {
+				shuffled.reverse();
 			}
 			order[gate.id] = shuffled;
 		}
@@ -539,6 +520,7 @@ export default function GroomingRoom({ onComplete }: GroomingRoomProps) {
 			subtitle="Recoge 3 llaves, supera checkpoints con preguntas y evita enemigos para abrir la salida."
 			progress={progress}
 			lawHint="Ley 1098 de 2006: proteccion integral de ninos, ninas y adolescentes"
+			theme="grooming"
 		>
 			<section className="grooming-room-shell">
 				<div className="grooming-status-row">
@@ -637,7 +619,7 @@ export default function GroomingRoom({ onComplete }: GroomingRoomProps) {
 					<>
 						<TruthChallenge
 							title="Decision final"
-							prompt="Has estado hablando con alguien en linea que dice tener tu edad. Despues de semanas, sospechas que podria ser mayor y empieza a pedirte fotos. Dice que si no lo haces, compartira conversaciones anteriores. ¿Que haces?"
+							prompt="Si un adulto desconocido pide fotos privadas o secretos, ¿cual es la accion correcta?"
 							onSelectionChange={(value) => {
 								setChallengeSelection(value);
 								setVerified(false);
@@ -646,22 +628,22 @@ export default function GroomingRoom({ onComplete }: GroomingRoomProps) {
 							revealResult={verified}
 							options={[
 								{
-									id: 'negociar',
-									text: 'Le digo con firmeza que no enviare nada, le pido que borre todo y le advierto que lo puedo denunciar si insiste',
+									id: 'seguir',
+									text: 'Mantener la conversacion mientras pido que me de tiempo',
 									isCorrect: false,
-									reason: 'Confrontar directamente a un manipulador le da informacion sobre tus limites y puede usarlo para presionarte mas.'
+									reason: 'Aunque suene prudente, mantener el contacto puede escalar el riesgo.'
 								},
 								{
-									id: 'bloquear-contar',
-									text: 'Guardo capturas de todas las conversaciones como evidencia, lo bloqueo sin avisarle y se lo cuento a un adulto de confianza aunque sienta verguenza',
+									id: 'contar-adulto',
+									text: 'Cortar contacto, bloquear y contarlo enseguida a un adulto de confianza',
 									isCorrect: true,
-									reason: 'Correcto. No alertar al agresor, preservar evidencia y buscar ayuda adulta es la unica combinacion realmente segura.'
+									reason: 'Correcto. Cortar contacto y pedir ayuda inmediata es la accion segura.'
 								},
 								{
-									id: 'silencio',
-									text: 'Dejo de responder poco a poco para que no sospeche, borro nuestros chats para protegerme y cambio mi nombre de usuario',
+									id: 'guardar-secreto',
+									text: 'No enviar nada, pero guardar silencio para evitar problemas',
 									isCorrect: false,
-									reason: 'Borrar chats destruye la evidencia que necesitas. Alejarte sin bloquear ni pedir ayuda no te protege realmente.'
+									reason: 'Guardar silencio mantiene el riesgo. Debes informar a un adulto.'
 								}
 							]}
 						/>

@@ -55,76 +55,6 @@ a {
 	backdrop-filter: blur(6px);
 }
 
-/* ── App Logo ───────────────────────── */
-.app-logo-wrap {
-	display: flex;
-	align-items: center;
-	gap: 0.6rem;
-}
-
-.app-logo-institutional {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background: rgba(255, 255, 255, 0.92);
-	border-radius: 10px;
-	padding: 3px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	flex-shrink: 0;
-}
-
-.app-logo-institutional img {
-	display: block;
-	border-radius: 6px;
-}
-
-.app-logo-divider {
-	width: 2px;
-	height: 40px;
-	background: rgba(34, 197, 94, 0.35);
-	border-radius: 2px;
-	flex-shrink: 0;
-}
-
-.app-logo-wrap[data-compact] {
-	gap: 0.45rem;
-}
-
-.app-logo-wrap[data-compact] .app-logo-institutional {
-	padding: 2px;
-	border-radius: 8px;
-}
-
-.app-logo-wrap[data-compact] .app-logo-divider {
-	height: 22px;
-}
-
-.app-logo-text {
-	min-width: 0;
-}
-
-.app-logo-subtitle {
-	color: #3f6212;
-	font-weight: 700;
-}
-
-/* Theme overrides for dark backgrounds */
-.escape-shell .app-logo-divider,
-.mini-world-shell .app-logo-divider {
-	background: rgba(255, 255, 255, 0.25);
-}
-
-.escape-shell .app-logo-subtitle,
-.mini-world-shell .app-logo-subtitle {
-	color: rgba(255, 255, 255, 0.7);
-}
-
-.escape-shell .app-logo-institutional,
-.mini-world-shell .app-logo-institutional {
-	background: rgba(255, 255, 255, 0.95);
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
 .game-button {
 	border: none;
 	border-radius: 14px;
@@ -757,322 +687,63 @@ a {
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
+	transition: background 0.4s ease;
 	animation: slideIn 0.45s ease-out both;
-	position: relative;
-}
-
-.escape-shell > * {
-	position: relative;
-	z-index: 1;
 }
 
 .escape-shell.theme-cyberbullying {
 	background:
-		radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.25), transparent 30%),
-		radial-gradient(circle at 83% 70%, rgba(99, 102, 241, 0.22), transparent 26%),
-		linear-gradient(140deg, #1e1b4b 0%, #1e3a5f 52%, #0f172a 100%);
-	color: #e0e7ff;
-}
-
-.escape-shell.theme-cyberbullying::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	background:
-		repeating-linear-gradient(
-			0deg,
-			transparent,
-			transparent 2px,
-			rgba(99, 102, 241, 0.04) 2px,
-			rgba(99, 102, 241, 0.04) 4px
-		);
-	pointer-events: none;
-	z-index: 0;
-}
-
-.theme-cyberbullying .glass-card {
-	background: rgba(30, 27, 75, 0.65);
-	border-color: rgba(99, 102, 241, 0.3);
-	color: #e0e7ff;
-}
-
-.theme-cyberbullying .hud-pill {
-	background: rgba(67, 56, 202, 0.25);
-	border-color: rgba(129, 140, 248, 0.3);
-	color: #c7d2fe;
-}
-
-.theme-cyberbullying .game-button.primary {
-	background: linear-gradient(135deg, #4f46e5, #6366f1);
-	color: #fff;
-	border-color: rgba(129, 140, 248, 0.5);
-}
-
-.theme-cyberbullying .game-button.secondary {
-	background: rgba(55, 48, 163, 0.4);
-	color: #c7d2fe;
-	border-color: rgba(129, 140, 248, 0.25);
-}
-
-.theme-cyberbullying .badge {
-	background: rgba(79, 70, 229, 0.3);
-	color: #c7d2fe;
-}
-
-.theme-cyberbullying .option-button {
-	background: rgba(30, 27, 75, 0.6);
-	border-color: rgba(99, 102, 241, 0.3);
-	color: #e0e7ff;
-}
-
-.theme-cyberbullying .option-button:hover {
-	border-color: rgba(129, 140, 248, 0.6);
-	background: rgba(67, 56, 202, 0.35);
-}
-
-.theme-cyberbullying .option-button.selected {
-	border-color: #818cf8;
-	background: rgba(79, 70, 229, 0.35);
+		radial-gradient(circle at 14% 22%, rgba(14, 165, 233, 0.3), transparent 34%),
+		radial-gradient(circle at 86% 72%, rgba(34, 197, 94, 0.23), transparent 30%),
+		linear-gradient(145deg, #dbeafe 0%, #e0f2fe 48%, #ecfeff 100%);
 }
 
 .escape-shell.theme-fakenews {
 	background:
-		radial-gradient(circle at 18% 78%, rgba(250, 204, 21, 0.3), transparent 30%),
-		radial-gradient(circle at 86% 14%, rgba(245, 158, 11, 0.22), transparent 32%),
-		linear-gradient(145deg, #451a03 0%, #78350f 50%, #431407 100%);
-	color: #fef3c7;
-}
-
-.escape-shell.theme-fakenews::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	background:
-		radial-gradient(circle 1px at 20px 20px, rgba(250, 204, 21, 0.08), transparent),
-		radial-gradient(circle 1px at 40px 40px, rgba(250, 204, 21, 0.06), transparent);
-	background-size: 60px 60px;
-	pointer-events: none;
-	z-index: 0;
-}
-
-.theme-fakenews .glass-card {
-	background: rgba(69, 26, 3, 0.65);
-	border-color: rgba(245, 158, 11, 0.3);
-	color: #fef3c7;
-}
-
-.theme-fakenews .hud-pill {
-	background: rgba(120, 53, 15, 0.45);
-	border-color: rgba(250, 204, 21, 0.3);
-	color: #fde68a;
-}
-
-.theme-fakenews .game-button.primary {
-	background: linear-gradient(135deg, #b45309, #d97706);
-	color: #fff;
-	border-color: rgba(250, 204, 21, 0.5);
-}
-
-.theme-fakenews .game-button.secondary {
-	background: rgba(120, 53, 15, 0.45);
-	color: #fde68a;
-	border-color: rgba(245, 158, 11, 0.25);
-}
-
-.theme-fakenews .badge {
-	background: rgba(180, 83, 9, 0.35);
-	color: #fde68a;
-}
-
-.theme-fakenews .option-button {
-	background: rgba(69, 26, 3, 0.6);
-	border-color: rgba(245, 158, 11, 0.3);
-	color: #fef3c7;
-}
-
-.theme-fakenews .option-button:hover {
-	border-color: rgba(250, 204, 21, 0.6);
-	background: rgba(120, 53, 15, 0.45);
-}
-
-.theme-fakenews .option-button.selected {
-	border-color: #fbbf24;
-	background: rgba(180, 83, 9, 0.35);
+		radial-gradient(circle at 16% 76%, rgba(250, 204, 21, 0.36), transparent 33%),
+		radial-gradient(circle at 84% 14%, rgba(251, 146, 60, 0.26), transparent 32%),
+		linear-gradient(150deg, #fef9c3 0%, #fef3c7 45%, #ffedd5 100%);
 }
 
 .escape-shell.theme-suplantacion {
 	background:
-		radial-gradient(circle at 20% 22%, rgba(16, 185, 129, 0.25), transparent 30%),
-		radial-gradient(circle at 82% 68%, rgba(52, 211, 153, 0.2), transparent 30%),
-		linear-gradient(150deg, #022c22 0%, #064e3b 45%, #0f766e 100%);
-	color: #d1fae5;
-}
-
-.escape-shell.theme-suplantacion::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	background:
-		repeating-linear-gradient(
-			90deg,
-			transparent,
-			transparent 28px,
-			rgba(16, 185, 129, 0.05) 28px,
-			rgba(16, 185, 129, 0.05) 30px
-		),
-		repeating-linear-gradient(
-			0deg,
-			transparent,
-			transparent 28px,
-			rgba(16, 185, 129, 0.05) 28px,
-			rgba(16, 185, 129, 0.05) 30px
-		);
-	pointer-events: none;
-	z-index: 0;
-}
-
-.theme-suplantacion .glass-card {
-	background: rgba(2, 44, 34, 0.65);
-	border-color: rgba(16, 185, 129, 0.3);
-	color: #d1fae5;
-}
-
-.theme-suplantacion .hud-pill {
-	background: rgba(6, 78, 59, 0.5);
-	border-color: rgba(52, 211, 153, 0.3);
-	color: #a7f3d0;
-}
-
-.theme-suplantacion .game-button.primary {
-	background: linear-gradient(135deg, #047857, #059669);
-	color: #fff;
-	border-color: rgba(52, 211, 153, 0.5);
-}
-
-.theme-suplantacion .game-button.secondary {
-	background: rgba(6, 78, 59, 0.45);
-	color: #a7f3d0;
-	border-color: rgba(16, 185, 129, 0.25);
-}
-
-.theme-suplantacion .badge {
-	background: rgba(4, 120, 87, 0.35);
-	color: #a7f3d0;
-}
-
-.theme-suplantacion .option-button {
-	background: rgba(2, 44, 34, 0.6);
-	border-color: rgba(16, 185, 129, 0.3);
-	color: #d1fae5;
-}
-
-.theme-suplantacion .option-button:hover {
-	border-color: rgba(52, 211, 153, 0.6);
-	background: rgba(6, 78, 59, 0.45);
-}
-
-.theme-suplantacion .option-button.selected {
-	border-color: #34d399;
-	background: rgba(4, 120, 87, 0.35);
+		radial-gradient(circle at 22% 20%, rgba(99, 102, 241, 0.28), transparent 34%),
+		radial-gradient(circle at 82% 72%, rgba(236, 72, 153, 0.22), transparent 32%),
+		linear-gradient(152deg, #e0e7ff 0%, #ede9fe 48%, #ecfeff 100%);
 }
 
 .escape-shell.theme-grooming {
 	background:
-		radial-gradient(circle at 80% 18%, rgba(239, 68, 68, 0.22), transparent 32%),
-		radial-gradient(circle at 17% 72%, rgba(251, 146, 60, 0.2), transparent 30%),
-		linear-gradient(160deg, #450a0a 0%, #7c2d12 52%, #431407 100%);
-	color: #fecaca;
+		radial-gradient(circle at 82% 18%, rgba(251, 113, 133, 0.28), transparent 35%),
+		radial-gradient(circle at 16% 74%, rgba(249, 115, 22, 0.24), transparent 32%),
+		linear-gradient(160deg, #ffe4e6 0%, #ffedd5 52%, #fef9c3 100%);
 }
 
-.escape-shell.theme-grooming::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	background:
-		repeating-linear-gradient(
-			-45deg,
-			transparent,
-			transparent 18px,
-			rgba(239, 68, 68, 0.04) 18px,
-			rgba(239, 68, 68, 0.04) 20px
-		);
-	pointer-events: none;
-	z-index: 0;
+.puzzle-wrapper {
+	padding: 1rem;
+	display: grid;
+	gap: 0.8rem;
+	transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-.theme-grooming .glass-card {
-	background: rgba(69, 10, 10, 0.65);
-	border-color: rgba(239, 68, 68, 0.3);
-	color: #fecaca;
+.puzzle-wrapper.theme-cyberbullying {
+	background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(224, 242, 254, 0.92));
+	border-color: rgba(14, 165, 233, 0.3);
 }
 
-.theme-grooming .hud-pill {
-	background: rgba(124, 45, 18, 0.45);
-	border-color: rgba(251, 146, 60, 0.3);
-	color: #fed7aa;
+.puzzle-wrapper.theme-fakenews {
+	background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(254, 249, 195, 0.92));
+	border-color: rgba(234, 179, 8, 0.32);
 }
 
-.theme-grooming .game-button.primary {
-	background: linear-gradient(135deg, #b91c1c, #dc2626);
-	color: #fff;
-	border-color: rgba(248, 113, 113, 0.5);
+.puzzle-wrapper.theme-suplantacion {
+	background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(237, 233, 254, 0.92));
+	border-color: rgba(99, 102, 241, 0.28);
 }
 
-.theme-grooming .game-button.secondary {
-	background: rgba(124, 45, 18, 0.4);
-	color: #fed7aa;
-	border-color: rgba(251, 146, 60, 0.25);
-}
-
-.theme-grooming .badge {
-	background: rgba(185, 28, 28, 0.3);
-	color: #fecaca;
-}
-
-.theme-grooming .option-button {
-	background: rgba(69, 10, 10, 0.6);
-	border-color: rgba(239, 68, 68, 0.3);
-	color: #fecaca;
-}
-
-.theme-grooming .option-button:hover {
-	border-color: rgba(248, 113, 113, 0.6);
-	background: rgba(124, 45, 18, 0.4);
-}
-
-.theme-grooming .option-button.selected {
-	border-color: #f87171;
-	background: rgba(185, 28, 28, 0.35);
-}
-
-.theme-grooming .grooming-cell.walkable {
-	background: rgba(69, 10, 10, 0.4);
-	border-color: rgba(239, 68, 68, 0.15);
-}
-
-.theme-grooming .grooming-cell.wall {
-	background: rgba(120, 53, 15, 0.7);
-}
-
-.theme-grooming .grooming-cell.reachable {
-	background: rgba(185, 28, 28, 0.35);
-	box-shadow: inset 0 0 6px rgba(248, 113, 113, 0.3);
-}
-
-.theme-grooming .grooming-cell.question-gate {
-	background: rgba(217, 119, 6, 0.35);
-	border-color: rgba(251, 191, 36, 0.5);
-}
-
-.theme-grooming .grooming-cell.goal-open {
-	background: rgba(22, 163, 74, 0.35);
-	border-color: rgba(74, 222, 128, 0.5);
-}
-
-.theme-grooming .path-question-card {
-	background: rgba(69, 10, 10, 0.95);
-	border-color: rgba(239, 68, 68, 0.4);
-	color: #fecaca;
+.puzzle-wrapper.theme-grooming {
+	background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(255, 228, 230, 0.92));
+	border-color: rgba(244, 63, 94, 0.26);
 }
 
 .escape-header {
@@ -1119,57 +790,6 @@ a {
 	padding-top: 0.2rem;
 }
 
-.progress-track {
-	width: 100%;
-	height: 14px;
-	border-radius: 999px;
-	background: rgba(0, 0, 0, 0.15);
-	overflow: hidden;
-}
-
-.progress-fill {
-	height: 100%;
-	background: linear-gradient(130deg, #facc15, #22c55e);
-	transition: width 0.25s ease;
-}
-
-.law-hint {
-	margin: 0;
-	font-size: 0.95rem;
-	opacity: 0.85;
-}
-
-.identity-shield-card {
-	background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)) !important;
-}
-
-.theme-cyberbullying .truth-question {
-	background: rgba(30, 27, 75, 0.5);
-	border-color: rgba(99, 102, 241, 0.3);
-}
-
-.theme-fakenews .truth-question {
-	background: rgba(69, 26, 3, 0.5);
-	border-color: rgba(245, 158, 11, 0.3);
-}
-
-.theme-suplantacion .truth-question {
-	background: rgba(2, 44, 34, 0.5);
-	border-color: rgba(16, 185, 129, 0.3);
-}
-
-.theme-grooming .truth-question {
-	background: rgba(69, 10, 10, 0.5);
-	border-color: rgba(239, 68, 68, 0.3);
-}
-
-.theme-grooming .grooming-intro-card,
-.theme-grooming .grooming-finish-card {
-	background: rgba(69, 10, 10, 0.85);
-	border-color: rgba(239, 68, 68, 0.3);
-	color: #fecaca;
-}
-
 .grooming-room-shell {
 	display: grid;
 	gap: 0.75rem;
@@ -1181,6 +801,8 @@ a {
 	display: grid;
 	gap: 0.65rem;
 	text-align: center;
+	border: 2px solid rgba(14, 165, 233, 0.22);
+	background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(236, 253, 243, 0.94));
 }
 
 .grooming-intro-card h3,
@@ -1603,35 +1225,21 @@ a {
 	cursor: not-allowed;
 }
 
-.cover-header {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.6rem;
-}
-
-.cover-header-brand {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-}
-
 .flow-steps {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem;
+	gap: 0.45rem;
 	justify-content: center;
 }
 
 .step-pill {
-	padding: 0.35rem 0.85rem;
+	padding: 0.3rem 0.75rem;
 	border-radius: 999px;
-	font-size: 0.85rem;
+	font-size: 0.82rem;
 	font-weight: 800;
 	background: rgba(220, 252, 231, 0.92);
 	color: #14532d;
 	border: 1px solid rgba(22, 163, 74, 0.35);
-	white-space: nowrap;
 }
 
 .age-panel {

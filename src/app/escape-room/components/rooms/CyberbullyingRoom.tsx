@@ -9,29 +9,24 @@ type CyberbullyingRoomProps = {
 };
 
 const attackBubbles = [
-	{ label: 'Mensaje hiriente repetido en el chat grupal del curso', isDanger: true },
-	{ label: 'Decirle a un companero en privado que su comentario te ofendio', isDanger: false },
-	{ label: 'Compartir el resultado del examen de otro companero como broma', isDanger: true },
-	{ label: 'Difusion de un rumor personal sobre alguien del salon', isDanger: true },
-	{ label: 'Publicar en el grupo escolar un articulo sobre como detectar ciberacoso', isDanger: false },
-	{ label: 'Etiquetar a un companero en un meme popular para que todos se rian', isDanger: true },
-	{ label: 'Captura de pantalla de un chat privado reenviada a otros', isDanger: true },
-	{ label: 'Crear un grupo aparte para comentar el comportamiento de un companero', isDanger: true },
-	{ label: 'Critica constructiva hecha en privado sobre un trabajo escolar', isDanger: false },
-	{ label: 'Exclusion intencional de alguien del grupo de clase sin explicacion', isDanger: true },
-	{ label: 'Reenviar un sticker que un companero creo de si mismo y compartio publicamente', isDanger: false },
-	{ label: 'Foto vergonzosa de alguien publicada sin su consentimiento', isDanger: true },
-	{ label: 'Amenaza anonima enviada por mensaje directo a un companero', isDanger: true },
-	{ label: 'Creacion de un perfil falso imitando a alguien del curso', isDanger: true }
+	{ label: 'Broma pesada repetida sobre un companero', isDanger: true },
+	{ label: 'Comentario respetuoso aunque no este de acuerdo', isDanger: false },
+	{ label: 'Cadena con rumor sin fuente', isDanger: true },
+	{ label: 'Meme editado para ridiculizar', isDanger: true },
+	{ label: 'Mensaje privado para ofrecer ayuda', isDanger: false },
+	{ label: 'Insulto "suave" en chat publico', isDanger: true },
+	{ label: 'Perfil falso que escribe por otro', isDanger: true },
+	{ label: 'Sacar del grupo para castigar', isDanger: true },
+	{ label: 'Foto subida sin permiso', isDanger: true },
+	{ label: 'Mensaje por DM para asustar', isDanger: true }
 ];
 
 const protocolActions = [
-	{ label: 'Esperar a estar tranquilo antes de tomar cualquier decision', safe: true },
-	{ label: 'Confrontar al agresor cara a cara con un testigo para que no lo pueda negar', safe: false },
-	{ label: 'Guardar capturas de pantalla con fecha y hora como evidencia', safe: true },
-	{ label: 'Hablar con los amigos cercanos del agresor para que lo convenzan de parar', safe: false },
-	{ label: 'Hablar con un adulto de confianza sobre la situacion completa', safe: true },
-	{ label: 'Crear una publicacion contra el acoso sin nombres para generar conciencia del caso', safe: false },
+	{ label: 'Pausar y no responder en caliente', safe: true },
+	{ label: 'Responder con sarcasmo para "defenderse"', safe: false },
+	{ label: 'Guardar pruebas con fecha', safe: true },
+	{ label: 'Publicar capturas para que lo juzguen', safe: false },
+	{ label: 'Pedir apoyo a un adulto y reportar', safe: true }
 ];
 
 export default function CyberbullyingRoom({ onComplete }: CyberbullyingRoomProps) {
@@ -106,6 +101,7 @@ export default function CyberbullyingRoom({ onComplete }: CyberbullyingRoomProps
 			subtitle="Toca las burbujas de acoso para transformarlas y activa el protocolo de proteccion."
 			progress={progress}
 			lawHint="Ley 1620 de 2013 y Decreto 1965"
+			theme="cyberbullying"
 		>
 			<section style={{ display: 'grid', gap: '0.9rem' }}>
 				<div className="hud-pill">⚠️ Errores en sala: {mistakes}</div>
@@ -158,7 +154,7 @@ export default function CyberbullyingRoom({ onComplete }: CyberbullyingRoomProps
 
 				<TruthChallenge
 					title="Reto rapido"
-					prompt="Un companero te insulta en un grupo escolar y otros reaccionan con risas. Bloqueaste al agresor, pero el acoso continua desde cuentas nuevas. ¿Cual estrategia es la mas completa?"
+					prompt="Si recibes mensajes ofensivos repetidos, ¿que combo de accion es el mas seguro?"
 					onSelectionChange={(value) => {
 						setChallengeSelection(value);
 						setVerified(false);
@@ -167,22 +163,22 @@ export default function CyberbullyingRoom({ onComplete }: CyberbullyingRoomProps
 					revealResult={verified}
 					options={[
 						{
-							id: 'ignorar',
-							text: 'Bloquear cada cuenta nueva, salir del grupo y eliminar la app para proteger tu salud mental',
+							id: 'bloquear-solo',
+							text: 'Bloquear y esperar unos dias antes de contarlo',
 							isCorrect: false,
-							reason: 'Bloquear y cuidarte esta bien, pero sin guardar pruebas ni activar la ruta escolar el agresor puede seguir con otros.'
+							reason: 'Bloquear ayuda, pero sin apoyo y reporte el riesgo puede continuar.'
 						},
 						{
-							id: 'documentar-reportar',
-							text: 'Guardar capturas de cada mensaje con fecha, reportar las cuentas en la plataforma y pedir a un adulto que active la ruta de convivencia',
+							id: 'guardar-pedir',
+							text: 'Guardar evidencia, bloquear/reportar y avisar a un adulto de confianza',
 							isCorrect: true,
-							reason: 'Correcto. Documentar, reportar en la plataforma y activar la ruta escolar cubre todas las vias de proteccion.'
+							reason: 'Correcto. Combina evidencia, bloqueo y apoyo para protegerte mejor.'
 						},
 						{
-							id: 'responder-una-vez',
-							text: 'Enviar un unico mensaje al grupo pidiendo respeto, guardar captura de la respuesta y reportar si no funciona',
+							id: 'responder',
+							text: 'Responder firme y luego decidir si vale la pena reportar',
 							isCorrect: false,
-							reason: 'Responder en el mismo grupo puede alimentar al agresor. Es mejor actuar por vias formales sin interactuar.'
+							reason: 'Sin apoyo adulto ni reporte, la situacion puede escalar.'
 						}
 					]}
 				/>

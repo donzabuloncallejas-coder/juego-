@@ -66,31 +66,31 @@ const stations: Station[] = [
 		id: 'cyber',
 		title: 'Nivel 1 - Ciberacoso',
 		emoji: '🛡️',
-		description: 'Aprendes a responder con calma y pedir ayuda.',
-		guidance: 'Si lees algo feo, respira y busca un adulto de confianza.',
+		description: 'Cuida tus chats.',
+		guidance: 'No respondas con insultos. Pide ayuda.',
 		challenges: [
 			{
-				prompt: 'Te llega un mensaje grosero. ¿Que haces?',
+				prompt: 'Te insultan por chat. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Guardo prueba y aviso a un adulto', safe: true },
-					{ id: 'b', text: 'Insulto de regreso', safe: false },
-					{ id: 'c', text: 'Lo publico para burlarme', safe: false }
+					{ id: 'a', text: 'Guardo captura y bloqueo', safe: false },
+					{ id: 'b', text: 'Guardo captura y aviso a un adulto', safe: true },
+					{ id: 'c', text: 'Le respondo para que se calme', safe: false }
 				]
 			},
 			{
-				prompt: 'Si un companero molesta en un chat del curso, ¿que es mejor?',
+				prompt: 'Si molestan a alguien en el grupo, ¿que haces?',
 				options: [
-					{ id: 'a', text: 'Reirme para encajar', safe: false },
-					{ id: 'b', text: 'Compartir el mensaje en otros grupos', safe: false },
-					{ id: 'c', text: 'Pedir respeto y avisar a un adulto', safe: true }
+					{ id: 'a', text: 'No digo nada para evitar problemas', safe: false },
+					{ id: 'b', text: 'Le escribo en privado y ya', safe: false },
+					{ id: 'c', text: 'Pido respeto y aviso a un adulto', safe: true }
 				]
 			},
 			{
-				prompt: 'Si te sientes triste por mensajes en internet, ¿que haces?',
+				prompt: 'Si un chat te hace sentir mal, ¿que haces?',
 				options: [
-					{ id: 'a', text: 'Me quedo callado siempre', safe: false },
-					{ id: 'b', text: 'Hablo con alguien de confianza', safe: true },
-					{ id: 'c', text: 'Respondo con mas insultos', safe: false }
+					{ id: 'a', text: 'Silencio el chat y hablo con un adulto', safe: true },
+					{ id: 'b', text: 'Me salgo del chat y no digo nada', safe: false },
+					{ id: 'c', text: 'Sigo leyendo para ver si mejora', safe: false }
 				]
 			}
 		]
@@ -99,31 +99,31 @@ const stations: Station[] = [
 		id: 'fake',
 		title: 'Nivel 2 - Fake News',
 		emoji: '📰',
-		description: 'Detectas noticias reales y evitas compartir rumores.',
-		guidance: 'Busca fuente, autor y fecha antes de compartir.',
+		description: 'Aprende a revisar noticias.',
+		guidance: 'Mira fuente y fecha antes de compartir.',
 		challenges: [
 			{
 				prompt: 'Ves una noticia viral sin fuente. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'La comparto rapido', safe: false },
-					{ id: 'b', text: 'Invento mas datos', safe: false },
-					{ id: 'c', text: 'La reviso con un adulto y no la comparto aun', safe: true }
+					{ id: 'a', text: 'La comparto diciendo "no se si sea real"', safe: false },
+					{ id: 'b', text: 'Reviso fuente y fecha antes de compartir', safe: true },
+					{ id: 'c', text: 'Espero un rato y luego la comparto igual', safe: false }
 				]
 			},
 			{
-				prompt: 'Un video dice algo increible. ¿Como comprobarlo?',
+				prompt: 'Un video dice algo sorprendente. ¿Como lo revisas?',
 				options: [
-					{ id: 'a', text: 'Buscar otra fuente confiable', safe: true },
-					{ id: 'b', text: 'Creerlo solo por ser popular', safe: false },
-					{ id: 'c', text: 'Mandarlo sin mirar', safe: false }
+					{ id: 'a', text: 'Busco otra fuente confiable', safe: true },
+					{ id: 'b', text: 'Lo creo porque tiene muchos likes', safe: false },
+					{ id: 'c', text: 'Pregunto en un grupo y lo doy por real', safe: false }
 				]
 			},
 			{
-				prompt: 'Si una noticia da miedo pero no tiene fecha, ¿que haces?',
+				prompt: 'Una noticia da miedo y no tiene fecha. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'La mando a todos', safe: false },
-					{ id: 'b', text: 'La paro y pregunto a un adulto', safe: true },
-					{ id: 'c', text: 'Le agrego mas cosas', safe: false }
+					{ id: 'a', text: 'La mando solo a mis amigos cercanos', safe: false },
+					{ id: 'b', text: 'La leo completa y decido rapido', safe: false },
+					{ id: 'c', text: 'La comparo con una fuente confiable', safe: true }
 				]
 			}
 		]
@@ -132,31 +132,31 @@ const stations: Station[] = [
 		id: 'identity',
 		title: 'Nivel 3 - Mi Perfil Seguro',
 		emoji: '🔐',
-		description: 'Proteges tus datos y tus claves personales.',
-		guidance: 'Tu contrasena es secreta. Nadie debe pedirla.',
+		description: 'Protege tus datos.',
+		guidance: 'Tu clave es privada.',
 		challenges: [
 			{
-				prompt: 'Un perfil nuevo pide tu clave. ¿Que haces?',
+				prompt: 'Una cuenta nueva te pide la clave. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'La publico en comentarios', safe: false },
-					{ id: 'b', text: 'No la doy y aviso a mi familia', safe: true },
-					{ id: 'c', text: 'Se la doy para ayudar', safe: false }
+					{ id: 'a', text: 'No la doy, reporto y aviso en casa', safe: true },
+					{ id: 'b', text: 'Le doy solo una parte de la clave', safe: false },
+					{ id: 'c', text: 'Cambio la clave y se la envio', safe: false }
 				]
 			},
 			{
-				prompt: 'Para crear una clave segura, ¿que conviene?',
+				prompt: 'Para una clave segura, ¿que conviene?',
 				options: [
-					{ id: 'a', text: 'Combinar letras y numeros', safe: true },
-					{ id: 'b', text: 'Usar 1234', safe: false },
-					{ id: 'c', text: 'Usar mi nombre completo', safe: false }
+					{ id: 'a', text: 'Una palabra facil con 123', safe: false },
+					{ id: 'b', text: 'Tu nombre y fecha', safe: false },
+					{ id: 'c', text: 'Una combinacion larga con letras, numeros y simbolos', safe: true }
 				]
 			},
 			{
-				prompt: 'Si un juego pide tu direccion real, ¿que haces?',
+				prompt: 'Un juego te pide direccion real. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'La doy para seguir', safe: false },
-					{ id: 'b', text: 'Tambien doy el telefono', safe: false },
-					{ id: 'c', text: 'No la doy y pido ayuda', safe: true }
+					{ id: 'a', text: 'Doy solo el barrio', safe: false },
+					{ id: 'b', text: 'No doy datos y aviso a un adulto', safe: true },
+					{ id: 'c', text: 'Invento una direccion y sigo', safe: false }
 				]
 			}
 		]
@@ -165,31 +165,31 @@ const stations: Station[] = [
 		id: 'grooming',
 		title: 'Nivel 4 - Contacto Riesgoso',
 		emoji: '🚨',
-		description: 'Aprendes a alejarte de conversaciones peligrosas.',
-		guidance: 'Si algo te incomoda, para y cuentalo enseguida.',
+		description: 'Detecta chats peligrosos.',
+		guidance: 'Si algo incomoda, corta y avisa.',
 		challenges: [
 			{
-				prompt: 'Un adulto desconocido pide fotos privadas. ¿Que haces?',
+				prompt: 'Un desconocido pide fotos privadas. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Sigo hablando en secreto', safe: false },
-					{ id: 'b', text: 'Bloqueo y cuento a un adulto de confianza', safe: true },
-					{ id: 'c', text: 'Le envio lo que pide', safe: false }
+					{ id: 'a', text: 'Bloqueo, reporto y aviso a un adulto', safe: true },
+					{ id: 'b', text: 'Le digo que no, pero sigo el chat', safe: false },
+					{ id: 'c', text: 'Mando una foto sin mostrar la cara', safe: false }
 				]
 			},
 			{
-				prompt: 'Si alguien te pide guardar secreto en chat, ¿que haces?',
+				prompt: 'Si te piden guardar un secreto raro, ¿que haces?',
 				options: [
-					{ id: 'a', text: 'Guardo secreto siempre', safe: false },
-					{ id: 'b', text: 'Acepto y sigo chateando', safe: false },
-					{ id: 'c', text: 'Lo cuento a mi familia', safe: true }
+					{ id: 'a', text: 'Lo guardo si promete no molestarme', safe: false },
+					{ id: 'b', text: 'Sigo hablando pero sin dar datos', safe: false },
+					{ id: 'c', text: 'Lo cuento a un adulto de confianza', safe: true }
 				]
 			},
 			{
-				prompt: 'Si algo te hace sentir incomodo en internet, ¿que haces?',
+				prompt: 'Si un chat te incomoda, ¿que haces?',
 				options: [
-					{ id: 'a', text: 'Cierro, bloqueo y aviso', safe: true },
-					{ id: 'b', text: 'Sigo por curiosidad', safe: false },
-					{ id: 'c', text: 'No digo nada a nadie', safe: false }
+					{ id: 'a', text: 'Lo ignoro y sigo conectado', safe: false },
+					{ id: 'b', text: 'Paro, bloqueo y guardo prueba', safe: true },
+					{ id: 'c', text: 'Borro el chat y no cuento nada', safe: false }
 				]
 			}
 		]
@@ -198,31 +198,31 @@ const stations: Station[] = [
 		id: 'games',
 		title: 'Nivel 5 - Gamer Seguro',
 		emoji: '🎮',
-		description: 'Juegas en linea sin compartir datos personales.',
-		guidance: 'En los juegos usa apodos y no reveles direccion ni telefono.',
+		description: 'Juega seguro en linea.',
+		guidance: 'Usa apodo y no des datos reales.',
 		challenges: [
 			{
-				prompt: 'Alguien en un juego te pide tu direccion. ¿Que haces?',
+				prompt: 'En un juego te piden direccion. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Le doy mi direccion para recibir un regalo', safe: false },
-					{ id: 'b', text: 'Le comparto tambien mi telefono', safe: false },
-					{ id: 'c', text: 'No la doy y aviso a mi familia', safe: true }
+					{ id: 'a', text: 'Doy solo la zona donde vivo', safe: false },
+					{ id: 'b', text: 'Doy direccion de otra persona', safe: false },
+					{ id: 'c', text: 'No doy datos y bloqueo si insiste', safe: true }
 				]
 			},
 			{
-				prompt: 'Para jugar seguro en linea, ¿que nombre usas?',
+				prompt: 'Para jugar seguro, ¿que nombre usas?',
 				options: [
-					{ id: 'a', text: 'Un apodo sin datos personales', safe: true },
-					{ id: 'b', text: 'Mi nombre y apellido real', safe: false },
-					{ id: 'c', text: 'Mi direccion como nombre', safe: false }
+					{ id: 'a', text: 'Un apodo', safe: true },
+					{ id: 'b', text: 'Nombre con inicial del colegio', safe: false },
+					{ id: 'c', text: 'Nombre real sin apellido', safe: false }
 				]
 			},
 			{
-				prompt: 'Si alguien en el juego te invita a un chat privado raro, ¿que haces?',
+				prompt: 'Te invitan a un chat privado raro. ¿Que haces?',
 				options: [
-					{ id: 'a', text: 'Entro de una vez', safe: false },
+					{ id: 'a', text: 'Entro un rato para ver de que se trata', safe: false },
 					{ id: 'b', text: 'No entro y aviso a un adulto', safe: true },
-					{ id: 'c', text: 'Le mando mis datos para confiar', safe: false }
+					{ id: 'c', text: 'Entro pero no envio fotos', safe: false }
 				]
 			}
 		]
@@ -246,7 +246,7 @@ const levels: LevelConfig[] = [
 		],
 		enemyEmojis: ['🧑‍💻', '👤', '👾'],
 		theme: 'cyber',
-		catchMessage: '¡Un acosador te alcanzo! Debes volver a empezar.'
+		catchMessage: 'Te atraparon. Vuelves al inicio.'
 	},
 	{
 		id: 'fake',
@@ -264,7 +264,7 @@ const levels: LevelConfig[] = [
 		],
 		enemyEmojis: ['📢', '🗞️', '🤥'],
 		theme: 'fakenews',
-		catchMessage: '¡Una noticia falsa te atrapo! Debes volver a empezar.'
+		catchMessage: 'Te atraparon. Vuelves al inicio.'
 	},
 	{
 		id: 'identity',
@@ -282,7 +282,7 @@ const levels: LevelConfig[] = [
 		],
 		enemyEmojis: ['🕵️', '👁️', '💀'],
 		theme: 'identity',
-		catchMessage: '¡Un suplantador robo tu identidad! Debes volver a empezar.'
+		catchMessage: 'Te atraparon. Vuelves al inicio.'
 	},
 	{
 		id: 'grooming',
@@ -300,7 +300,7 @@ const levels: LevelConfig[] = [
 		],
 		enemyEmojis: ['🐺', '🎭', '🤡'],
 		theme: 'grooming',
-		catchMessage: '¡Un desconocido peligroso te alcanzo! Debes volver a empezar.'
+		catchMessage: 'Te atraparon. Vuelves al inicio.'
 	},
 	{
 		id: 'games',
@@ -318,7 +318,7 @@ const levels: LevelConfig[] = [
 		],
 		enemyEmojis: ['👾', '🤖', '☠️'],
 		theme: 'gamer',
-		catchMessage: '¡Un jugador malicioso te atrapo! Debes volver a empezar.'
+		catchMessage: 'Te atraparon. Vuelves al inicio.'
 	}
 ];
 
@@ -480,7 +480,10 @@ export default function MiniEscapeClient() {
 
 		return activeStationData.challenges[questionIndex] ?? null;
 	}, [activeStationData, activeLevel, activeSubIndex, hasSubStations, questionIndex]);
-	const questionPaletteClass = `question-palette-${(questionIndex % 3) + 1}`;
+	const activePaletteIndex = hasSubStations && activeSubIndex >= 0 && activeLevel?.subStations
+		? activeLevel.subStations[activeSubIndex].challengeIndex
+		: questionIndex;
+	const questionPaletteClass = `question-palette-${(activePaletteIndex % 3) + 1}`;
 	const selectedOption = activeQuestion?.options.find((option) => option.id === selectedChoice) ?? null;
 
 	const levelState = useMemo(() => {
@@ -587,9 +590,9 @@ export default function MiniEscapeClient() {
 		setLevelCleared(false);
 		const subCount = level.subStations?.length ?? 0;
 		const stationLabel = subCount > 0
-			? `visita ${subCount} tarjetas y responde sus preguntas`
-			: `responde todas las preguntas`;
-		setLevelMessage(`Nivel ${level.order + 1}: ${stationLabel} y recoge ${level.requiredStars} estrellas.`);
+			? `responde ${subCount} tarjetas`
+			: `responde las preguntas`;
+		setLevelMessage(`Nivel ${level.order + 1}: ${stationLabel} y junta ${level.requiredStars} estrella${level.requiredStars > 1 ? 's' : ''}.`);
 	}
 
 	function startLevel(levelId: StationId) {
@@ -649,7 +652,7 @@ export default function MiniEscapeClient() {
 					setSelectedChoice('');
 					setVerifiedAnswer(false);
 					setPlayer(activeLevel.playerStart);
-					setLevelMessage('Respuesta incorrecta. El acosador te devolvio al inicio. ¡Intentalo de nuevo!');
+					setLevelMessage('Respuesta incorrecta. Vuelves al inicio.');
 				}, 1200);
 			}
 			return;
@@ -667,9 +670,9 @@ export default function MiniEscapeClient() {
 			setSelectedChoice('');
 			setVerifiedAnswer(false);
 			if (remaining > 0) {
-				setLevelMessage(`¡Correcto! Faltan ${remaining} tarjeta${remaining > 1 ? 's' : ''} por responder.`);
+				setLevelMessage(`Bien. Faltan ${remaining} tarjeta${remaining > 1 ? 's' : ''}.`);
 			} else {
-				setLevelMessage(`¡Excelente! Respondiste todas las tarjetas. Recoge ${requiredStars} estrellas para superar el nivel.`);
+				setLevelMessage(`Listo. Ahora junta ${requiredStars} estrella${requiredStars > 1 ? 's' : ''}.`);
 			}
 			return;
 		}
@@ -679,7 +682,7 @@ export default function MiniEscapeClient() {
 			setQuestionIndex((prev) => prev + 1);
 			setSelectedChoice('');
 			setVerifiedAnswer(false);
-			setLevelMessage(`Muy bien. Continua con la pregunta ${questionIndex + 2} de ${activeStationData.challenges.length}.`);
+			setLevelMessage(`Bien. Sigue con la pregunta ${questionIndex + 2}.`);
 			return;
 		}
 
@@ -688,7 +691,7 @@ export default function MiniEscapeClient() {
 		setQuestionIndex(0);
 		setSelectedChoice('');
 		setVerifiedAnswer(false);
-		setLevelMessage(`Muy bien. Respondiste todas las preguntas. Ahora recoge ${requiredStars} estrellas para superar el nivel.`);
+		setLevelMessage(`Listo. Junta ${requiredStars} estrella${requiredStars > 1 ? 's' : ''}.`);
 	}
 
 	function finishLevel() {
@@ -744,7 +747,7 @@ export default function MiniEscapeClient() {
 		setMode('play');
 		resetPlayState(nextLevel);
 		setLevelMessage(
-			`Nivel ${nextLevel.order + 1}: sigue con ${stationById[nextLevel.id].title}. Responde todas las preguntas y recoge ${nextLevel.requiredStars} estrellas.`
+			`Nivel ${nextLevel.order + 1}: ${stationById[nextLevel.id].title}. Junta ${nextLevel.requiredStars} estrella${nextLevel.requiredStars > 1 ? 's' : ''}.`
 		);
 	}
 
@@ -909,7 +912,7 @@ export default function MiniEscapeClient() {
 
 		if (canClearLevel) {
 			setLevelCleared(true);
-			setLevelMessage('Nivel superado. Pulsa continuar para ir al siguiente tema.');
+			setLevelMessage('Nivel superado. Sigue al siguiente tema.');
 		}
 	}, [activeLevel, canClearLevel, levelCleared, mode]);
 
@@ -974,7 +977,7 @@ export default function MiniEscapeClient() {
 				<section className="mini-level-map-stage">
 					<div className="mini-level-map-title">
 						<h2>🗺️ Ruta de Aventuras</h2>
-						<p>¡Completa cada nivel para desbloquear el siguiente!</p>
+						<p>Completa un nivel para abrir el siguiente.</p>
 					</div>
 					<div className="mini-level-map-board">
 						<span className="map-deco" style={{ left: '2%', top: '18%', fontSize: '2.2rem', animationDelay: '0s' }}>🌳</span>
@@ -1153,9 +1156,9 @@ export default function MiniEscapeClient() {
 						<div className="mini-world-complete slide-in">
 							<h2>¡Nivel superado!</h2>
 							<div className="level-score-summary">
-								<p>✅ Respuestas correctas: <strong>{correctAnswers}</strong></p>
-								<p>❌ Respuestas incorrectas: <strong>{wrongAnswers}</strong></p>
-								<p>💀 Veces atrapado: <strong>{enemyHits}</strong></p>
+								<p>✅ Bien: <strong>{correctAnswers}</strong></p>
+								<p>❌ Fallos: <strong>{wrongAnswers}</strong></p>
+								<p>💀 Capturas: <strong>{enemyHits}</strong></p>
 								<p>⭐ Estrellas: <strong>{stars}</strong></p>
 							</div>
 							<p className="level-score-total">
@@ -1172,8 +1175,8 @@ export default function MiniEscapeClient() {
 					{hackerAlert ? (
 						<div className="mini-world-complete slide-in hacker-alert-overlay">
 							<div className="hacker-alert-icon">🧑‍💻</div>
-							<h2>¡Te atrapó un acosador!</h2>
-							<p>Un hacker te alcanzó y debes volver a empezar el nivel. ¡Ten más cuidado!</p>
+							<h2>¡Te atraparon!</h2>
+							<p>Vuelves al inicio del nivel.</p>
 							<div className="mini-complete-actions">
 								<button className="game-button primary" onClick={() => setHackerAlert(false)}>
 									Volver a intentar
@@ -1188,11 +1191,11 @@ export default function MiniEscapeClient() {
 				{mode === 'play' ? (
 					<>
 						<p className="mini-world-help">
-							Mueve a Lua con flechas o botones. Al tocar la tarjeta con Lua, la pregunta se abre automaticamente.
+							Mueve a Lua. Toca una tarjeta para responder.
 						</p>
 						<p className="mini-world-tip">
 							{activeLevel
-								? `Nivel ${activeLevel.order + 1}: junta ${requiredStars} estrellas y responde ${activeStationData?.challenges.length ?? 0} preguntas. Enemigos: ${activeLevel.enemyCount}.`
+								? `Nivel ${activeLevel.order + 1}: junta ${requiredStars} estrella${requiredStars > 1 ? 's' : ''}. Enemigos: ${activeLevel.enemyCount}.`
 								: 'Selecciona un nivel desde el mapa.'}
 						</p>
 						<div className="mini-pad">
@@ -1215,8 +1218,8 @@ export default function MiniEscapeClient() {
 					</>
 				) : (
 					<>
-						<p className="mini-world-help">Toca un nivel desbloqueado para empezar. Cada nivel sube un poco la dificultad.</p>
-						<p className="mini-world-tip">Al completar los 5 niveles veras tu puntaje final y el ciclo se reinicia.</p>
+						<p className="mini-world-help">Toca un nivel abierto para empezar.</p>
+						<p className="mini-world-tip">Completa los 5 niveles para ver tu puntaje.</p>
 					</>
 				)}
 			</section>
@@ -1225,7 +1228,7 @@ export default function MiniEscapeClient() {
 				<div className="mini-world-dialog-backdrop" onClick={closeStation}>
 					<div
 						key={`${activeStationData.id}-${hasSubStations ? activeSubIndex : questionIndex}`}
-						className={`mini-world-dialog slide-in ${hasSubStations ? '' : questionPaletteClass}`}
+						className={`mini-world-dialog slide-in ${questionPaletteClass}`}
 						onClick={(event) => event.stopPropagation()}
 					>
 						<div className="mini-dialog-head">
@@ -1247,26 +1250,35 @@ export default function MiniEscapeClient() {
 						<p>{activeStationData.description}</p>
 						<p className="mini-hint">{activeStationData.guidance}</p>
 
-						{hasSubStations ? (
-							<p className="mini-hint">
-								Tarjeta {activeSubIndex + 1} de {activeLevel?.subStations?.length ?? 0} — Respondidas: {completedSubStations.length}
-							</p>
-						) : (
-							<>
-								<p className="mini-hint">Pregunta {questionIndex + 1} de {activeStationData.challenges.length}</p>
-								<div className="mini-question-palette-track" aria-label="Paletas de preguntas">
-									{activeStationData.challenges.map((_, index) => {
-										const paletteClass = `palette-${(index % 3) + 1}`;
-										const stateClass = index === questionIndex ? 'active' : index < questionIndex ? 'done' : 'pending';
-										return (
-											<span key={`${activeStationData.id}-palette-${index}`} className={`mini-question-palette ${paletteClass} ${stateClass}`}>
-												Paleta {index + 1}
-											</span>
-										);
-									})}
-								</div>
-							</>
-						)}
+						<p className="mini-hint">
+							{hasSubStations
+								? `Tarjeta ${activeSubIndex + 1} de ${activeLevel?.subStations?.length ?? 0}`
+								: `Pregunta ${questionIndex + 1} de ${activeStationData.challenges.length}`}
+						</p>
+						<div className="mini-question-palette-track" aria-label="Paletas de preguntas">
+							{(hasSubStations && activeLevel?.subStations ? activeLevel.subStations : activeStationData.challenges).map((item, index) => {
+								const paletteIndex = hasSubStations
+									? (item as SubStation).challengeIndex
+									: index;
+								const paletteClass = `palette-${(paletteIndex % 3) + 1}`;
+								const stateClass = hasSubStations
+									? index === activeSubIndex
+										? 'active'
+										: completedSubStations.includes(index)
+											? 'done'
+											: 'pending'
+									: index === questionIndex
+										? 'active'
+										: index < questionIndex
+											? 'done'
+											: 'pending';
+								return (
+									<span key={`${activeStationData.id}-palette-${index}`} className={`mini-question-palette ${paletteClass} ${stateClass}`}>
+										P{index + 1}
+									</span>
+								);
+							})}
+						</div>
 
 						<div className="truth-options">
 							<p className="mini-question">{activeQuestion.prompt}</p>
@@ -1295,10 +1307,10 @@ export default function MiniEscapeClient() {
 						{verifiedAnswer && selectedOption ? (
 							<p className={selectedOption.safe ? 'feedback-ok' : 'feedback-bad'}>
 								{selectedOption.safe
-									? 'Muy bien. Esa es una accion segura.'
+									? 'Bien, esa opcion es segura.'
 									: hasSubStations
-										? '¡Incorrecto! El acosador te devuelve al inicio...'
-										: 'Ups. Esa accion no es segura. Intenta de nuevo.'}
+										? 'Incorrecto. Vuelves al inicio.'
+										: 'Esa opcion no es segura.'}
 							</p>
 						) : null}
 
@@ -1322,9 +1334,9 @@ export default function MiniEscapeClient() {
 			{cycleScore !== null ? (
 				<div className="mini-world-dialog-backdrop">
 					<div className="mini-world-dialog slide-in">
-						<h3>🏆 ¡Completaste todos los niveles!</h3>
-						<p>Tu puntaje final fue: {cycleScore}</p>
-						<p className="mini-hint">La aventura se reinicio. Solo el Nivel 1 queda desbloqueado otra vez.</p>
+						<h3>🏆 ¡Completaste todo!</h3>
+						<p>Puntaje final: {cycleScore}</p>
+						<p className="mini-hint">El juego vuelve al nivel 1.</p>
 						<div className="mini-dialog-actions">
 							<button type="button" className="game-button primary" onClick={resetCycleSummary}>
 								Aceptar
